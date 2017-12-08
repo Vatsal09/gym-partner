@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,12 +22,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText emailIn;
     private EditText passwordIn;
     private Button loginBtn;
     private Button createBtn;
+    private TextView forgetView;
 
     private FirebaseAuth mAuth;
     private ProgressDialog pBar;
@@ -49,9 +51,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         passwordIn = (EditText) findViewById(R.id.password);
         loginBtn = (Button) findViewById(R.id.loginBTN);
         createBtn = (Button) findViewById(R.id.createBTN);
+        forgetView = (TextView) findViewById(R.id.forgetPass);
 
         loginBtn.setOnClickListener(this);
         createBtn.setOnClickListener(this);
+        forgetView.setOnClickListener(this);
     }
 
     private  void registerUser(){
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if(task.isSuccessful()) {
                             Log.d("message", "createUserWithEmail:success");
                             finish();
-                            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                            startActivity(new Intent(getApplicationContext(), CreateProfile.class));
                         } else {
                             Log.w("message", "createUserWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed.",
@@ -114,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             finish();
                             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                         } else {
-                            finish();
                             // If sign in fails, display a message to the user.
                             Log.w("", "signInWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed.",
@@ -122,6 +125,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 });
+    }
+
+    private void recoverPass() {
+        String email = emailIn.getText().toString().trim();
+
+        if(email == null || email.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Input email for account", Toast.LENGTH_LONG).show();
+        } else {
+            mAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("message", "Email sent.");
+                                Toast.makeText(getApplicationContext(), "Recovery email sent", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        }
     }
 
     @Override
@@ -132,6 +154,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(v == loginBtn) {
             userLogin();
+        }
+        if(v == forgetView) {
+            recoverPass();
         }
     }
 }

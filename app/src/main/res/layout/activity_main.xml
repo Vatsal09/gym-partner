@@ -4,27 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_bright"
+    android:background="@android:color/background_light"
     tools:context="com.example.janmatthewmiranda.testlogin.MainActivity">
 
     <Button
         android:id="@+id/createBTN"
-        android:layout_width="200dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/loginBTN"
         android:layout_alignBottom="@+id/loginBTN"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:backgroundTint="@android:color/holo_blue_light"
+        android:layout_marginEnd="11dp"
+        android:layout_marginRight="11dp"
+        android:backgroundTint="@android:color/holo_blue_dark"
         android:text="Create User" />
 
     <EditText
         android:id="@+id/user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="190dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="74dp"
         android:hint="Email"
         android:inputType="textEmailAddress" />
 
@@ -41,21 +44,34 @@
 
     <Button
         android:id="@+id/loginBTN"
-        android:layout_width="200dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/password"
-        android:layout_marginTop="30dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="32dp"
         android:backgroundTint="@android:color/holo_blue_dark"
         android:text="Login" />
+
+    <TextView
+        android:id="@+id/forgetPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="34dp"
+        android:text="Forget Password?"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/loginBTN"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp"
-        android:text="TextView" />
+        android:layout_marginTop="61dp"
+        android:text="GYM PARTNER"
+        android:textSize="30sp" />
 </android.widget.RelativeLayout>
