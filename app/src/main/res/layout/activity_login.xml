@@ -27,23 +27,48 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/APP_NAME"
         android:textAlignment="center"
+        android:textColor="@android:color/black"
         android:textSize="24sp" />
-
-    <EditText
-        android:id="@+id/email"
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/EMAIL"
+            android:inputType="textEmailAddress" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/PASSWORD"
+            android:inputType="textPassword" />
+    </android.support.design.widget.TextInputLayout>
+    <Button
+        android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/EMAIL"
-        android:inputType="textEmailAddress" />
+        android:layout_marginTop="16dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/LOGIN"
+        android:textColor="@android:color/black" />
 
-    <EditText
-        android:id="@+id/password"
+    <Button
+        android:id="@+id/createButton"
+        style="?android:attr/buttonBarButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="@string/PASSWORD"
-        android:inputType="textPassword" />
-
+        android:background="@color/colorPrimary"
+        android:text="@string/CREATE_USER"
+        android:textColor="@android:color/black" />
+    <!--
     <LinearLayout
         android:id="@+id/buttonBar"
         style="?android:attr/buttonBarButtonStyle"
@@ -63,21 +88,21 @@
             android:layout_weight="1"
             android:background="@android:color/holo_blue_dark"
             android:text="@string/LOGIN"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/black" />
 
         <Button
             android:id="@+id/createButton"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_weight="1"
             android:background="@android:color/holo_blue_dark"
             android:text="@string/CREATE_USER"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/black" />
 
-    </LinearLayout>
+    </LinearLayout>-->
 
     <TextView
         android:id="@+id/forgetPass"
@@ -85,8 +110,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="34dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-medium"
         android:text="@string/FORGOT_PASSWORD"
-        android:textSize="18sp" />
+        android:textColor="@android:color/black"
+        android:textSize="14sp" />
 
 </android.widget.LinearLayout>
