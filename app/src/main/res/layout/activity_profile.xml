@@ -16,7 +16,8 @@
         android:layout_marginTop="116dp"
         android:textAlignment="center"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/logoutBtn"
