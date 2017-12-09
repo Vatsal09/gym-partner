@@ -29,20 +29,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private FirebaseAuth mAuth;
     private ProgressDialog pBar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Hide the status bar.
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-
         // Hide the action bar.
         ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
         mAuth = FirebaseAuth.getInstance();
 
         if(mAuth.getCurrentUser() != null) {
@@ -62,7 +58,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         createBtn.setOnClickListener(this);
         forgetView.setOnClickListener(this);
     }
-
+    private void registerUser(){
+        startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
+    }
+/*
     private void registerUser(){
         String email = emailIn.getText().toString().trim();
         String password = passwordIn.getText().toString().trim();
@@ -97,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 });
 
     }
-
+*/
     private void userLogin() {
         String email = emailIn.getText().toString().trim();
         String password = passwordIn.getText().toString().trim();
