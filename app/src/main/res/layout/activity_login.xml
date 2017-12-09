@@ -10,7 +10,7 @@
     android:paddingLeft="24dp"
     android:paddingRight="24dp"
     android:paddingTop="8dp"
-    tools:context="com.example.janmatthewmiranda.testlogin.MainActivity">
+    tools:context="com.example.janmatthewmiranda.testlogin.LoginActivity">
 
     <ImageView
         android:id="@+id/logo"
