@@ -4,7 +4,11 @@
     <string name="PASSWORD">Password</string>
     <string name="LOGIN">Login</string>
     <string name="CREATE_USER">Create User</string>
+    <string name="REGISTER">Register</string>
     <string name="APP_NAME">GYM PARTNER</string>
-    <string name="FORGOT_PASSWORD">Forget Password?</string>
+    <string name="FORGOT_PASSWORD">Forgot Password?</string>
     <string name="LOGO_DESCRIPTION">Arm with heart tattoo logo</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="FORGOT_PASSWORD_MESSAGE">Please enter your e-mail to reset your password.</string>
+    <string name="RESET_PASSWORD">Reset Password</string>
 </resources>
