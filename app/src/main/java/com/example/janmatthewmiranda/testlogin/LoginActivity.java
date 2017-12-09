@@ -132,6 +132,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void recoverPass() {
+        startActivity(new Intent(getApplicationContext(), ResetPasswordActivity.class));
+    }
+    /*
+    private void recoverPass() {
         String email = emailIn.getText().toString().trim();
 
         if(email == null || email.isEmpty()) {
@@ -149,7 +153,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     });
         }
     }
-
+*/
     @Override
     public void onClick(View v) {
         if(v == createBtn) {
