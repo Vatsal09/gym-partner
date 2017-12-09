@@ -56,10 +56,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         pBar = new ProgressDialog(this);
 
-        emailIn = (EditText) findViewById(R.id.user);
+        emailIn = (EditText) findViewById(R.id.email);
         passwordIn = (EditText) findViewById(R.id.password);
-        loginBtn = (Button) findViewById(R.id.loginBTN);
-        createBtn = (Button) findViewById(R.id.createBTN);
+        loginBtn = (Button) findViewById(R.id.loginButton);
+        createBtn = (Button) findViewById(R.id.createButton);
         forgetView = (TextView) findViewById(R.id.forgetPass);
 
         loginBtn.setOnClickListener(this);

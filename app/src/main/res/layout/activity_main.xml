@@ -2,14 +2,15 @@
 <android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
-    tools:context="com.example.janmatthewmiranda.testlogin.MainActivity"
     android:orientation="vertical"
-    android:paddingTop="8dp"
     android:paddingLeft="24dp"
-    android:paddingRight="24dp">
+    android:paddingRight="24dp"
+    android:paddingTop="8dp"
+    tools:context="com.example.janmatthewmiranda.testlogin.MainActivity">
 
     <ImageView
         android:id="@+id/logo"
@@ -29,7 +30,7 @@
         android:textSize="24sp" />
 
     <EditText
-        android:id="@+id/user"
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/EMAIL"
@@ -44,30 +45,33 @@
         android:inputType="textPassword" />
 
     <LinearLayout
+        android:id="@+id/buttonBar"
+        style="?android:attr/buttonBarButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        style="?android:attr/buttonBarButtonStyle">
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/loginBTN"
+            android:id="@+id/loginButton"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@android:color/holo_blue_dark"
             android:text="@string/LOGIN"
             android:textColor="@android:color/white" />
 
         <Button
-            android:id="@+id/createBTN"
+            android:id="@+id/createButton"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:background="@android:color/holo_blue_dark"
             android:text="@string/CREATE_USER"
