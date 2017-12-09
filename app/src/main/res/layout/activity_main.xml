@@ -1,79 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
-    tools:context="com.example.janmatthewmiranda.testlogin.MainActivity">
+    tools:context="com.example.janmatthewmiranda.testlogin.MainActivity"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp">
 
-    <Button
-        android:id="@+id/createBTN"
-        android:layout_width="160dp"
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/loginBTN"
-        android:layout_alignBottom="@+id/loginBTN"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="11dp"
-        android:layout_marginRight="11dp"
-        android:backgroundTint="@android:color/holo_blue_dark"
-        android:text="Create User" />
+        android:contentDescription="@string/LOGO_DESCRIPTION"
+        app:srcCompat="@drawable/arm" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="false"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/APP_NAME"
+        android:textAlignment="center"
+        android:textSize="24sp" />
 
     <EditText
         android:id="@+id/user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView"
-        android:layout_marginTop="74dp"
-        android:hint="Email"
+        android:hint="@string/EMAIL"
         android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/user"
-        android:layout_alignRight="@+id/user"
-        android:layout_below="@+id/user"
-        android:layout_marginTop="17dp"
-        android:hint="Password"
+        android:layout_marginTop="8dp"
+        android:hint="@string/PASSWORD"
         android:inputType="textPassword" />
 
-    <Button
-        android:id="@+id/loginBTN"
-        android:layout_width="160dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/password"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="@android:color/holo_blue_dark"
-        android:text="Login" />
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        style="?android:attr/buttonBarButtonStyle">
+
+        <Button
+            android:id="@+id/loginBTN"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_dark"
+            android:text="@string/LOGIN"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/createBTN"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_dark"
+            android:text="@string/CREATE_USER"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/forgetPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="34dp"
-        android:text="Forget Password?"
-        android:textSize="18sp"
-        android:visibility="visible" />
+        android:text="@string/FORGOT_PASSWORD"
+        android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="61dp"
-        android:text="GYM PARTNER"
-        android:textSize="30sp"
-        android:visibility="visible" />
-</android.widget.RelativeLayout>
+</android.widget.LinearLayout>

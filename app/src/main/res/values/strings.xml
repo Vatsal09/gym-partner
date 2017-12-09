@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Gym Partner</string>
+    <string name="EMAIL">E-mail</string>
+    <string name="PASSWORD">Password</string>
+    <string name="LOGIN">Login</string>
+    <string name="CREATE_USER">Create User</string>
+    <string name="APP_NAME">GYM PARTNER</string>
+    <string name="FORGOT_PASSWORD">Forget Password?</string>
+    <string name="LOGO_DESCRIPTION">Arm with heart tattoo logo</string>
 </resources>
