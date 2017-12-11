@@ -95,7 +95,8 @@ public class SignUpActivity extends AppCompatActivity {
                                     Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-                                    startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+                                    //User should goto create profile page if registration passes
+                                    startActivity(new Intent(SignUpActivity.this, CreateProfile.class));
                                     finish();
                                 }
                             }
