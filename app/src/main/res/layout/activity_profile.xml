@@ -6,25 +6,70 @@
     android:layout_height="match_parent"
     tools:context="com.example.janmatthewmiranda.testlogin.ProfileActivity">
 
-    <TextView
-        android:id="@+id/emailText"
+    <!--<TextView-->
+        <!--android:id="@+id/emailText"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginTop="116dp"-->
+        <!--android:textAlignment="center"-->
+        <!--android:textSize="14sp"-->
+        <!--android:textStyle="bold"-->
+        <!--android:visibility="visible" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/logoutBtn"-->
+        <!--android:layout_width="200dp"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="61dp"-->
+        <!--android:text="Logout" />-->
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout">
+
+        <Button
+            android:id="@+id/logoutBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LOGOUT" />
+
+        <Button
+            android:id="@+id/profileBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PROFILE" />
+
+        <Button
+            android:id="@+id/homeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="HOME" />
+
+        <Button
+            android:id="@+id/matchesBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="MATCHES" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="116dp"
-        android:textAlignment="center"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:visibility="visible" />
+        android:layout_below="@+id/linearLayout">
 
-    <Button
-        android:id="@+id/logoutBtn"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Logout" />
-
+    </FrameLayout>
 </android.widget.RelativeLayout>
