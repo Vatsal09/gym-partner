@@ -1,6 +1,9 @@
 package com.example.janmatthewmiranda.testlogin;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +15,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener, homeFragment.OnFragmentInteractionListener {
 
     private FirebaseAuth firebaseAuth;
 //    private TextView emailText;
@@ -21,6 +24,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private Button homeBtn;
     private Button matchesBtn;
     private FrameLayout frameLayout;
+
+    private FragmentManager fm;
+    homeFragment fhome = new homeFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +48,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
         logoutBtn = (Button) findViewById(R.id.logoutBtn);
 
-//        emailText = (TextView) findViewById(R.id.emailText);
         Toast.makeText(getBaseContext(), "Welcome " + user.getEmail(), Toast.LENGTH_SHORT).show();
 
-//        emailText.setText("Welcome " + user.getEmail());
         logoutBtn.setOnClickListener(this);
         profileBtn.setOnClickListener(this);
         homeBtn.setOnClickListener(this);
         matchesBtn.setOnClickListener(this);
 
+        fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.frameLayout, fhome);
+        ft.commit();
 
     }
 
@@ -70,5 +78,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             finish();
             startActivity(new Intent(this, LoginActivity.class));
       }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
