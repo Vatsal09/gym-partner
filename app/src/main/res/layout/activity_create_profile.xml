@@ -26,9 +26,46 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="168dp"
+        android:layout_marginTop="16dp"
         android:text="Create User Profile"
         android:textSize="24sp"
         tools:layout_editor_absoluteX="93dp"
         tools:layout_editor_absoluteY="123dp" />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:hint="@string/NAME"
+        android:inputType="textPersonName"
+        android:maxLines="1"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/age"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name"
+        android:layout_alignStart="@+id/name"
+        android:layout_below="@+id/name"
+        android:hint="@string/AGE"
+        android:inputType="textNoSuggestions"
+        android:maxLines="1"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/phoneNumber"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/age"
+        android:layout_alignStart="@+id/age"
+        android:layout_below="@+id/age"
+        android:hint="@string/PHONE_NUMBER"
+        android:inputType="phone"
+        android:maxLines="1"
+        android:singleLine="true" />
+
 </android.widget.RelativeLayout>
