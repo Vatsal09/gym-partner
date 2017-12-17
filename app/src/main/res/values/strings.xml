@@ -11,12 +11,21 @@
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="FORGOT_PASSWORD_MESSAGE">Please enter your e-mail to reset your password.</string>
     <string name="RESET_PASSWORD">Reset Password</string>
-    <string name="NAME">Name</string>
-    <string name="PHONE_NUMBER">Phone Number</string>
-    <string name="AGE">Age</string>
+    <string name="NAME">Enter your full name</string>
+    <string name="PHONE_NUMBER">Enter your phone number (just numbers)</string>
+    <string name="AGE">Enter your age (just numbers)</string>
     <string name="Male">Male</string>
     <string name="Female">Female</string>
-
+    <string name="desc">Add User Icon</string>
+    <string name="gender_prompt">Enter your gender</string>
+    <string name="uploadBtn">Upload Profile Picture</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="genders">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Non-Binary</item>
+        <item>Other</item>
+    </string-array>
 </resources>
