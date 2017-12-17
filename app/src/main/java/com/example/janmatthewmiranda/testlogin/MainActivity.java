@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -13,7 +14,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, homeFragment.OnFragmentInteractionListener, editProfileFragment.OnFragmentInteractionListener, matchesFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, HomeFragment.OnFragmentInteractionListener, EditProfileFragment.OnFragmentInteractionListener, MatchesFragment.OnFragmentInteractionListener {
 
     private FirebaseAuth firebaseAuth;
 //    private TextView emailText;
@@ -23,14 +24,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button matchesBtn;
 
     private FragmentManager fm;
-    homeFragment fhome = new homeFragment();
-    editProfileFragment fprofile = new editProfileFragment();
-    matchesFragment fmatches = new matchesFragment();
+    HomeFragment fhome = new HomeFragment();
+    EditProfileFragment fprofile = new EditProfileFragment();
+    MatchesFragment fmatches = new MatchesFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_main);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -91,11 +92,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(v == logoutBtn) {
             logoutUser();
-      }
+        }
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+        Log.d("onFragmentInteraction", "Interface initialized");
+        logoutUser();
 
+    }
+
+    @Override
+    public void onLogoutSelected() {
+        Log.d("onLogoutSelected", "Interface initialized");
+        logoutUser();
     }
 }
