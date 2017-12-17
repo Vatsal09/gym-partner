@@ -18,7 +18,7 @@
             android:layout_marginBottom="28dp"
             android:layout_marginEnd="76dp"
             android:layout_marginRight="76dp"
-            android:src="@drawable/flexing_Muscles_Emoji_large"
+            android:src="@drawable/flexing_muscles_emoji_large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -29,7 +29,7 @@
             android:layout_marginBottom="28dp"
             android:layout_marginLeft="76dp"
             android:layout_marginStart="76dp"
-            android:src="@drawable/sleeping_Emoji_large"
+            android:src="@drawable/sleeping_emoji_large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
