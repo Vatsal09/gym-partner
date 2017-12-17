@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +17,8 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+
+import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +28,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+
 
 public class CreateProfile extends AppCompatActivity implements View.OnClickListener{
 
@@ -49,6 +54,14 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     private SeekBar seekBar3;
     private SeekBar seekBar4;
     private SeekBar seekBar5;
+
+    private MultiSelectSpinner monTimes;
+    private MultiSelectSpinner tueTimes;
+    private MultiSelectSpinner wedTimes;
+    private MultiSelectSpinner thuTimes;
+    private MultiSelectSpinner friTimes;
+    private MultiSelectSpinner satTimes;
+    private MultiSelectSpinner sunTimes;
 
 
     private FirebaseAuth firebaseAuth;
@@ -92,6 +105,15 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
         seekBar4 = (SeekBar) findViewById(R.id.seekBar_4);
         seekBar5 = (SeekBar) findViewById(R.id.seekBar_5);
         setSeekBars();
+        monTimes = (MultiSelectSpinner) findViewById(R.id.multiselectSpinnerMon);
+        tueTimes = (MultiSelectSpinner) findViewById(R.id.multiselectSpinnerTue);
+        wedTimes = (MultiSelectSpinner) findViewById(R.id.multiselectSpinnerWed);
+        thuTimes = (MultiSelectSpinner) findViewById(R.id.multiselectSpinnerThu);
+        friTimes = (MultiSelectSpinner) findViewById(R.id.multiselectSpinnerFri);
+        satTimes = (MultiSelectSpinner) findViewById(R.id.multiselectSpinnerSat);
+        sunTimes = (MultiSelectSpinner) findViewById(R.id.multiselectSpinnerSun);
+        setMultiSelect();
+
 
 
         saveBtn = (Button) findViewById(R.id.saveBtn);
@@ -283,5 +305,79 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
             }
         }
 
+    }
+    public void setMultiSelect(){
+        ArrayList<String> times = new ArrayList<>();
+        for(int i=1; i<13;i++){
+           times.add(Integer.toString(i) + " AM");
+        }
+        for(int i=1; i<13;i++){
+            times.add(Integer.toString(i) + " PM");
+        }
+
+        ArrayAdapter<String> adapter1 = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_activated_1, times);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_activated_1, times);
+        ArrayAdapter<String> adapter3 = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_activated_1, times);
+        ArrayAdapter<String> adapter4 = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_activated_1, times);
+        ArrayAdapter<String> adapter5 = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_activated_1, times);
+        ArrayAdapter<String> adapter6 = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_activated_1, times);
+        ArrayAdapter<String> adapter7 = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_activated_1, times);
+
+        monTimes.setListAdapter(adapter1).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
+        tueTimes.setListAdapter(adapter2).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
+        wedTimes.setListAdapter(adapter3).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
+        thuTimes.setListAdapter(adapter4).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
+        friTimes.setListAdapter(adapter5).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
+        satTimes.setListAdapter(adapter6).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
+        sunTimes.setListAdapter(adapter7).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
     }
 }
