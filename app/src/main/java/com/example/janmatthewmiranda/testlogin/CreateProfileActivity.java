@@ -88,6 +88,8 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     private FirebaseDatabase database;
     private FirebaseStorage storage;
     private Uri uriOfImage;
+    private String imageLink;
+    private Uri userUritoProfilePic;
     private DatabaseReference mDatabase;
     private FirebaseUser user;
 
@@ -187,22 +189,24 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         List sun = new ArrayList<String>(Arrays.asList(workout_sch_sun));
         List coordinates = new ArrayList<Double>(Arrays.asList(LatLang));
         String coords = ("lat: " + LatLang[0] + ", long: " + LatLang[1]);
-
+        imageLink ="";
         StorageReference storageReference = storage.getReference();
         StorageReference profileImageReference = storageReference.child("users").child(userID).child(uriOfImage.getLastPathSegment());
         UploadTask uploadTask = profileImageReference.putFile(uriOfImage);
         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                @SuppressWarnings("VisibleForTests") Uri download = taskSnapshot.getDownloadUrl();
+                imageLink = download.toString();
+
             }
         });
 
-
+        List match_list = new ArrayList<String>();
         mDatabase = database.getReference();
 
 
-        User user = new User(email, nName, aAge, pphoneNumber, genderSelected, destination, coordinates, eExperience_avg, progress1, progress2, progress3, progress4, progress5, mon, tue, wed, thu, fri, sat, sun);
+        User user = new User(email, nName, aAge, pphoneNumber, genderSelected, imageLink, destination, coordinates, eExperience_avg, progress1, progress2, progress3, progress4, progress5, mon, tue, wed, thu, fri, sat, sun, match_list);
         mDatabase.child("users").child(userID).setValue(user);
 
         //Moves to Homepage
@@ -218,6 +222,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         public String age;
         public String phoneNumber;
         public String gender;
+        public String image_url;
         public List gym_location;
         public String gymName;
         public Double experience_avg;
@@ -233,6 +238,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         public List schedule_fri;
         public List schedule_sat;
         public List schedule_sun;
+        public List matchList;
 
 
 
@@ -240,13 +246,14 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             // Default constructor required for calls to DataSnapshot.getValue(User.class)
         }
 
-        public User(String email, String name, String age, String phoneNumber, String gender, String gymName, List gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
-                    Double experience_aerobic, Double experience_circuit, List schedule_mon, List schedule_tue, List schedule_wed, List schedule_thu, List schedule_fri, List schedule_sat, List schedule_sun) {
+        public User(String email, String name, String age, String phoneNumber, String gender, String image_url, String gymName, List gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
+                    Double experience_aerobic, Double experience_circuit, List schedule_mon, List schedule_tue, List schedule_wed, List schedule_thu, List schedule_fri, List schedule_sat, List schedule_sun, List matchList) {
             this.email = email;
             this.name = name;
             this.age = age;
             this.phoneNumber = phoneNumber;
             this.gender = gender;
+            this.image_url = image_url;
             this.gymName = gymName;
             this.gym_location = gym_location;
             this.experience_avg = experience_avg;
@@ -262,6 +269,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             this.schedule_fri = schedule_fri;
             this.schedule_sat = schedule_sat;
             this.schedule_sun = schedule_sun;
+            this.matchList = matchList;
         }
 
     }
