@@ -415,12 +415,10 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
                         String tmp = "";
-                        if(i < 12){
+                        if(i <= 12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i == 12){
-                            tmp = Integer.toString(i-1) +" AM";
-                        }
+
                         else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
@@ -452,12 +450,10 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
                         String tmp = "";
-                        if(i < 12){
+                        if(i <= 12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i == 12){
-                            tmp = Integer.toString(i-1) +" AM";
-                        }
+
                         else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
@@ -489,12 +485,10 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
                         String tmp = "";
-                        if(i < 12){
+                        if(i <=12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i == 12){
-                            tmp = Integer.toString(i-1) +" AM";
-                        }
+
                         else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
@@ -526,12 +520,10 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
                         String tmp = "";
-                        if(i < 12){
+                        if(i <= 12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i == 12){
-                            tmp = Integer.toString(i-1) +" AM";
-                        }
+
                         else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
@@ -563,12 +555,10 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
                         String tmp = "";
-                        if(i < 12){
+                        if(i <= 12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i == 12){
-                            tmp = Integer.toString(i-1) +" AM";
-                        }
+
                         else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
@@ -600,12 +590,10 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
                         String tmp = "";
-                        if(i < 12){
+                        if(i <= 12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i == 12){
-                            tmp = Integer.toString(i-1) +" AM";
-                        }
+
                         else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
@@ -637,12 +625,10 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
                         String tmp = "";
-                        if(i < 12){
+                        if(i <= 12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i == 12){
-                            tmp = Integer.toString(i-1) +" AM";
-                        }
+
                         else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
