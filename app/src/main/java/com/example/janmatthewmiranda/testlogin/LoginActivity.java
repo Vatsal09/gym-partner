@@ -58,45 +58,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         createBtn.setOnClickListener(this);
         forgetView.setOnClickListener(this);
     }
+
     private void registerUser(){
         startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
     }
-/*
-    private void registerUser(){
-        String email = emailIn.getText().toString().trim();
-        String password = passwordIn.getText().toString().trim();
-
-        if(TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Please enter email", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if(TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Please enter password", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        pBar.setMessage("Registering Please Wait...");
-        pBar.show();
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        pBar.dismiss();
-                        if(task.isSuccessful()) {
-                            Log.d("message", "createUserWithEmail:success");
-                            finish();
-                            startActivity(new Intent(getApplicationContext(), CreateProfileActivity.class));
-                        } else {
-                            Log.w("message", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-    }
-*/
     private void userLogin() {
         String email = emailIn.getText().toString().trim();
         String password = passwordIn.getText().toString().trim();
@@ -134,32 +99,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void recoverPass() {
         startActivity(new Intent(getApplicationContext(), ResetPasswordActivity.class));
     }
-    /*
-    private void recoverPass() {
-        String email = emailIn.getText().toString().trim();
 
-        if(email == null || email.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Input email for account", Toast.LENGTH_LONG).show();
-        } else {
-            mAuth.sendPasswordResetEmail(email)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Log.d("message", "Email sent.");
-                                Toast.makeText(getApplicationContext(), "Recovery email sent", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-        }
-    }
-*/
     @Override
     public void onClick(View v) {
         if(v == createBtn) {
             registerUser();
         }
-
         if(v == loginBtn) {
             userLogin();
         }
