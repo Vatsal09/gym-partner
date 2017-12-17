@@ -73,7 +73,7 @@
             android:layout_marginTop="16dp"
             android:background="@color/colorPrimary"
             android:text="@string/REGISTER"
-            android:textColor="@android:color/black"
+            android:textColor="#ececec"
             android:textStyle="bold" />
 
         <Button
