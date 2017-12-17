@@ -414,7 +414,19 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 workout_sch_mon = new String[count];
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
-                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                        String tmp = "";
+                        if(i < 12){
+                            tmp = Integer.toString(i) +" AM";
+                        }
+                        else if(i>=12){
+                            tmp = Integer.toString(i-12) +" PM";
+                        }
+                        else{
+
+                        }
+                        // String.valueOf(selected[i-1]
+                        workout_sch_mon[count-1] = tmp;
+                        count--;
                     }
 
 
@@ -436,11 +448,24 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 workout_sch_tue = new String[count];
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
-                        workout_sch_tue[count-1] = String.valueOf(selected[i-1]);
+                        String tmp = "";
+                        if(i < 12){
+                            tmp = Integer.toString(i) +" AM";
+                        }
+                        else if(i>=12){
+                            tmp = Integer.toString(i-12) +" PM";
+                        }
+                        else{
+
+                        }
+                        // String.valueOf(selected[i-1]
+                        workout_sch_tue[count-1] = tmp;
+                        count--;
                     }
 
 
                 }
+
             }
         }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
         wedTimes.setListAdapter(adapter3).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
@@ -457,11 +482,24 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 workout_sch_wed = new String[count];
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
-                        workout_sch_wed[count-1] = String.valueOf(selected[i-1]);
+                        String tmp = "";
+                        if(i < 12){
+                            tmp = Integer.toString(i) +" AM";
+                        }
+                        else if(i>=12){
+                            tmp = Integer.toString(i-12) +" PM";
+                        }
+                        else{
+
+                        }
+                        // String.valueOf(selected[i-1]
+                        workout_sch_wed[count-1] = tmp;
+                        count--;
                     }
 
 
                 }
+
             }
         }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
         thuTimes.setListAdapter(adapter4).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
@@ -478,11 +516,24 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 workout_sch_thu = new String[count];
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
-                        workout_sch_thu[count-1] = String.valueOf(selected[i-1]);
+                        String tmp = "";
+                        if(i < 12){
+                            tmp = Integer.toString(i) +" AM";
+                        }
+                        else if(i>=12){
+                            tmp = Integer.toString(i-12) +" PM";
+                        }
+                        else{
+
+                        }
+                        // String.valueOf(selected[i-1]
+                        workout_sch_thu[count-1] = tmp;
+                        count--;
                     }
 
 
                 }
+
             }
         }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
         friTimes.setListAdapter(adapter5).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
@@ -499,11 +550,24 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 workout_sch_fri = new String[count];
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
-                        workout_sch_fri[count-1] = String.valueOf(selected[i-1]);
+                        String tmp = "";
+                        if(i < 12){
+                            tmp = Integer.toString(i) +" AM";
+                        }
+                        else if(i>=12){
+                            tmp = Integer.toString(i-12) +" PM";
+                        }
+                        else{
+
+                        }
+                        // String.valueOf(selected[i-1]
+                        workout_sch_fri[count-1] = tmp;
+                        count--;
                     }
 
 
                 }
+
             }
         }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
         satTimes.setListAdapter(adapter6).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
@@ -520,11 +584,24 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 workout_sch_sat = new String[count];
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
-                        workout_sch_sat[count-1] = String.valueOf(selected[i-1]);
+                        String tmp = "";
+                        if(i < 12){
+                            tmp = Integer.toString(i) +" AM";
+                        }
+                        else if(i>=12){
+                            tmp = Integer.toString(i-12) +" PM";
+                        }
+                        else{
+
+                        }
+                        // String.valueOf(selected[i-1]
+                        workout_sch_sat[count-1] = tmp;
+                        count--;
                     }
 
 
                 }
+
             }
         }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
         sunTimes.setListAdapter(adapter7).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
@@ -541,11 +618,24 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 workout_sch_sun = new String[count];
                 for(int i=1; i<25; i++){
                     if(selected[i-1] == true){
-                        workout_sch_sun[count-1] = String.valueOf(selected[i-1]);
+                        String tmp = "";
+                        if(i < 12){
+                            tmp = Integer.toString(i) +" AM";
+                        }
+                        else if(i>=12){
+                            tmp = Integer.toString(i-12) +" PM";
+                        }
+                        else{
+
+                        }
+                        // String.valueOf(selected[i-1]
+                        workout_sch_sun[count-1] = tmp;
+                        count--;
                     }
 
 
                 }
+
             }
         }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
     }
