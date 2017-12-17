@@ -28,4 +28,23 @@
         <item>Non-Binary</item>
         <item>Other</item>
     </string-array>
+
+
+
+
+
+    <string name="Monday">Mon.</string>
+    <string name="Tuesday">Tue.</string>
+    <string name="Wednesday">Wed.</string>
+    <string name="Thursday">Thu.</string>
+    <string name="Friday">Fri.</string>
+    <string name="Saturday">Sat.</string>
+    <string name="Sunday">Sun.</string>
+
+
+
+
+    <string name="title">Select your Availability:</string>
+
+
 </resources>
