@@ -3,15 +3,10 @@ package com.example.janmatthewmiranda.testlogin;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -96,7 +91,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     //User should goto create profile page if registration passes
-                                    startActivity(new Intent(SignUpActivity.this, CreateProfile.class));
+                                    startActivity(new Intent(SignUpActivity.this, CreateProfileActivity.class));
                                     finish();
                                 }
                             }

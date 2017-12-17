@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    tools:context="com.example.janmatthewmiranda.testlogin.CreateProfile">
+    tools:context="com.example.janmatthewmiranda.testlogin.CreateProfileActivity">
 
     <ScrollView
         android:id="@+id/scroll"

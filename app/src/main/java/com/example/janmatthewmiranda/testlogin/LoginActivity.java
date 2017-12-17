@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if(task.isSuccessful()) {
                             Log.d("message", "createUserWithEmail:success");
                             finish();
-                            startActivity(new Intent(getApplicationContext(), CreateProfile.class));
+                            startActivity(new Intent(getApplicationContext(), CreateProfileActivity.class));
                         } else {
                             Log.w("message", "createUserWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed.",

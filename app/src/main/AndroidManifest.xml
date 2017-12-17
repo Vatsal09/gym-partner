@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".CreateProfile" />
+        <activity android:name=".CreateProfileActivity" />
         <activity
             android:name=".SignUpActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

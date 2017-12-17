@@ -31,7 +31,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 
-public class CreateProfile extends AppCompatActivity implements View.OnClickListener{
+public class CreateProfileActivity extends AppCompatActivity implements View.OnClickListener{
 
     public static final int GALLERY_REQUEST = 95;
     private Button saveBtn;
