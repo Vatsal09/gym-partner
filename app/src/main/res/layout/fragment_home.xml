@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,50 +7,76 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/passBtn"
+        <ImageButton
+            android:id="@+id/match_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="32dp"
-            android:layout_marginLeft="55dp"
-            android:layout_marginStart="55dp"
-            android:text="PASS" />
+            android:layout_marginBottom="28dp"
+            android:layout_marginEnd="76dp"
+            android:layout_marginRight="76dp"
+            android:src="@drawable/Flexing_Muscles_Emoji_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <Button
-            android:id="@+id/matchBtn"
+        <ImageButton
+            android:id="@+id/pass_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/passBtn"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="56dp"
-            android:layout_marginRight="56dp"
-            android:text="MATCH" />
+            android:layout_marginBottom="28dp"
+            android:layout_marginLeft="76dp"
+            android:layout_marginStart="76dp"
+            android:src="@drawable/Sleeping_Emoji_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/match_picture"
+            android:layout_width="match_parent"
+            android:layout_height="385dp"
+            android:background="@color/black_overlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/personNameBox"
+            android:id="@+id/home_match_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="148dp"
-            android:textSize="18sp" />
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"
+            android:text="Match Name"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/match_picture" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/home_experience_match"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="47dp"
-            android:text="HOME FRAGMENT"
-            android:textSize="18sp" />
-    </RelativeLayout>
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:text="% Experience Match"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/match_picture" />
+
+        <TextView
+            android:id="@+id/home_gym_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"
+            android:text="Gym Name"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/home_match_name" />
+    </android.support.constraint.ConstraintLayout>
+
 </FrameLayout>
