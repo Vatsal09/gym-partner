@@ -45,11 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         profileBtn = (Button) findViewById(R.id.profileBtn);
         homeBtn = (Button) findViewById(R.id.homeBtn);
         matchesBtn = (Button) findViewById(R.id.matchesBtn);
-        logoutBtn = (Button) findViewById(R.id.logoutBtn);
 
         Toast.makeText(getBaseContext(), "Welcome " + user.getEmail(), Toast.LENGTH_SHORT).show();
 
-        logoutBtn.setOnClickListener(this);
         profileBtn.setOnClickListener(this);
         homeBtn.setOnClickListener(this);
         matchesBtn.setOnClickListener(this);
@@ -89,9 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             FragmentTransaction ft = fm.beginTransaction();
             ft.replace(R.id.frameLayout, fmatches);
             ft.commit();
-        }
-        if(v == logoutBtn) {
-            logoutUser();
         }
     }
 
