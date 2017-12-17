@@ -26,11 +26,15 @@ import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
 
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -79,9 +83,11 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     private String [] workout_sch_fri;
     private String [] workout_sch_sat;
     private String [] workout_sch_sun;
-
+    private String destination;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase database;
+    private FirebaseStorage storage;
+    private Uri uriOfImage;
     private DatabaseReference mDatabase;
     private FirebaseUser user;
 
@@ -92,7 +98,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
 
         database = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-
+        storage = FirebaseStorage.getInstance();
         if(firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
@@ -138,7 +144,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
-                String destination = place.getName().toString();
+                destination = place.getName().toString();
                 System.out.println(destination);
                 LatLng destinationLatLng = place.getLatLng();
                 LatLang = new Double[2];
@@ -180,9 +186,21 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         List sun = new ArrayList<String>(Arrays.asList(workout_sch_sun));
         List coordinates = new ArrayList<Double>(Arrays.asList(LatLang));
 
+        StorageReference storageReference = storage.getReference();
+        StorageReference profileImageReference = storageReference.child("users").child(userID).child(uriOfImage.getLastPathSegment());
+        UploadTask uploadTask = profileImageReference.putFile(uriOfImage);
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+            }
+        });
+
+
         mDatabase = database.getReference();
 
-        User user = new User(email, nName, aAge, pphoneNumber, genderSelected, coordinates, eExperience_avg, progress1, progress2, progress3, progress4, progress5, mon, tue, wed, thu, fri, sat, sun);
+
+        User user = new User(email, nName, aAge, pphoneNumber, genderSelected, destination, coordinates, eExperience_avg, progress1, progress2, progress3, progress4, progress5, mon, tue, wed, thu, fri, sat, sun);
         mDatabase.child("users").child(userID).setValue(user);
 
         //Moves to Homepage
@@ -199,6 +217,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         public String phoneNumber;
         public String gender;
         public List gym_location;
+        public String gymName;
         public Double experience_avg;
         public Double experience_flexibility;
         public Double experience_dynamic_strength;
@@ -219,13 +238,14 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             // Default constructor required for calls to DataSnapshot.getValue(User.class)
         }
 
-        public User(String email, String name, String age, String phoneNumber, String gender, List gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
+        public User(String email, String name, String age, String phoneNumber, String gender, String gymName, List gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
                     Double experience_aerobic, Double experience_circuit, List schedule_mon, List schedule_tue, List schedule_wed, List schedule_thu, List schedule_fri, List schedule_sat, List schedule_sun) {
             this.email = email;
             this.name = name;
             this.age = age;
             this.phoneNumber = phoneNumber;
             this.gender = gender;
+            this.gymName = gymName;
             this.gym_location = gym_location;
             this.experience_avg = experience_avg;
             this.experience_flexibility = experience_flexibility;
@@ -369,7 +389,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
             if(requestCode == GALLERY_REQUEST){
-                Uri uriOfImage = data.getData();
+                uriOfImage = data.getData();
                 InputStream inputStream;
                 try {
                     inputStream=getContentResolver().openInputStream(uriOfImage);
@@ -385,6 +405,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     }
     public void setMultiSelect(){
         ArrayList<String> times = new ArrayList<>();
+
         for(int i=1; i<13;i++){
            times.add(Integer.toString(i) + " AM");
         }
