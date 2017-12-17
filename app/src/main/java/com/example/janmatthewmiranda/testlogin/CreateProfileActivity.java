@@ -179,10 +179,11 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         List sat = new ArrayList<String>(Arrays.asList(workout_sch_sat));
         List sun = new ArrayList<String>(Arrays.asList(workout_sch_sun));
         List coordinates = new ArrayList<Double>(Arrays.asList(LatLang));
+        String coords = ("lat: " + LatLang[0] + ", long: " + LatLang[1]);
 
         mDatabase = database.getReference();
 
-        User user = new User(email, nName, aAge, pphoneNumber, genderSelected, coordinates, eExperience_avg, progress1, progress2, progress3, progress4, progress5, mon, tue, wed, thu, fri, sat, sun);
+        User user = new User(email, nName, aAge, pphoneNumber, genderSelected, coords, eExperience_avg, progress1, progress2, progress3, progress4, progress5, mon, tue, wed, thu, fri, sat, sun);
         mDatabase.child("users").child(userID).setValue(user);
 
         //Moves to Homepage
@@ -198,7 +199,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         public String age;
         public String phoneNumber;
         public String gender;
-        public List gym_location;
+        public String gym_location;
         public Double experience_avg;
         public Double experience_flexibility;
         public Double experience_dynamic_strength;
@@ -219,7 +220,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             // Default constructor required for calls to DataSnapshot.getValue(User.class)
         }
 
-        public User(String email, String name, String age, String phoneNumber, String gender, List gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
+        public User(String email, String name, String age, String phoneNumber, String gender, String gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
                     Double experience_aerobic, Double experience_circuit, List schedule_mon, List schedule_tue, List schedule_wed, List schedule_thu, List schedule_fri, List schedule_sat, List schedule_sun) {
             this.email = email;
             this.name = name;
