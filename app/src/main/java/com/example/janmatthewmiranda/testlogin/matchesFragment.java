@@ -33,9 +33,6 @@ public class matchesFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private TextView matchText, gymText, experienceText;
-    private ImageButton matchButton, passButton;
-    private ImageView matchImage;
 
 
     public matchesFragment() {
@@ -72,17 +69,6 @@ public class matchesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-
-        matchText = (TextView) view.findViewById(R.id.home_match_name);
-        gymText = (TextView) view.findViewById(R.id.home_gym_name);
-        experienceText = (TextView) view.findViewById(R.id.home_experience_match);
-
-        matchButton = (ImageButton) view.findViewById(R.id.match_button);
-        passButton = (ImageButton) view.findViewById(R.id.pass_button);
-
-        matchImage = (ImageView) view.findViewById(R.id.match_picture);
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_matches, container, false);
