@@ -98,7 +98,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
 
         database = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        storage = FirebaseStorage.getInstance();
+
         if(firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
@@ -185,6 +185,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         List sat = new ArrayList<String>(Arrays.asList(workout_sch_sat));
         List sun = new ArrayList<String>(Arrays.asList(workout_sch_sun));
         List coordinates = new ArrayList<Double>(Arrays.asList(LatLang));
+        String coords = ("lat: " + LatLang[0] + ", long: " + LatLang[1]);
 
         StorageReference storageReference = storage.getReference();
         StorageReference profileImageReference = storageReference.child("users").child(userID).child(uriOfImage.getLastPathSegment());
@@ -389,7 +390,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
             if(requestCode == GALLERY_REQUEST){
-                uriOfImage = data.getData();
+                Uri uriOfImage = data.getData();
                 InputStream inputStream;
                 try {
                     inputStream=getContentResolver().openInputStream(uriOfImage);
@@ -405,7 +406,6 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     }
     public void setMultiSelect(){
         ArrayList<String> times = new ArrayList<>();
-
         for(int i=1; i<13;i++){
            times.add(Integer.toString(i) + " AM");
         }
