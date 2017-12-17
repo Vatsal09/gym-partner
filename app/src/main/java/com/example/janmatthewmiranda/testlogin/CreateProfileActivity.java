@@ -49,12 +49,12 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     private Button uploadBtn;
     private ImageView imageDisplay;
     private String genderSelected;
-
-    private int progress1 = 0;
-    private int progress2 = 0;
-    private int progress3 = 0;
-    private int progress4 = 0;
-    private int progress5 = 0;
+    private Double [] LatLang;
+    private Double progress1 = 0.0;
+    private Double progress2 = 0.0;
+    private Double progress3 = 0.0;
+    private Double  progress4 = 0.0;
+    private Double progress5 = 0.0;
 
     private SeekBar seekBar1;
     private SeekBar seekBar2;
@@ -70,6 +70,13 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     private MultiSelectSpinner satTimes;
     private MultiSelectSpinner sunTimes;
 
+    private String [] workout_sch_mon;
+    private String [] workout_sch_tue;
+    private String [] workout_sch_wed;
+    private String [] workout_sch_thu;
+    private String [] workout_sch_fri;
+    private String [] workout_sch_sat;
+    private String [] workout_sch_sun;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase database;
@@ -132,6 +139,9 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 String destination = place.getName().toString();
                 System.out.println(destination);
                 LatLng destinationLatLng = place.getLatLng();
+                LatLang = new Double[2];
+                LatLang[0] = destinationLatLng.latitude;
+                LatLang[1] = destinationLatLng.longitude;
             }
             @Override
             public void onError(Status status) {
@@ -158,10 +168,11 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         String pphoneNumber = phoneNumber.getText().toString();
         String email = user.getEmail().toString();
         String userID = user.getUid();
+        Double eExperience_avg = (progress1 + progress2 + progress3 + progress4 + progress5)/5.0;
 
         mDatabase = database.getReference();
 
-        User user = new User(email, nName, aAge, pphoneNumber);
+        User user = new User(email, nName, aAge, pphoneNumber, genderSelected, LatLang, eExperience_avg, progress1, progress2, progress3, progress4, progress5, workout_sch_mon, workout_sch_tue, workout_sch_wed, workout_sch_thu, workout_sch_fri, workout_sch_sat, workout_sch_sun);
         mDatabase.child("users").child(userID).setValue(user);
 
         //Moves to Homepage
@@ -176,16 +187,49 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         public String name;
         public String age;
         public String phoneNumber;
+        public String gender;
+        public Double [] gym_location;
+        public Double experience_avg;
+        public Double experience_flexibility;
+        public Double experience_dynamic_strength;
+        public Double experience_static_strength;
+        public Double experience_aerobic;
+        public Double experience_circuit;
+        public String [] schedule_mon;
+        public String [] schedule_tue;
+        public String [] schedule_wed;
+        public String [] schedule_thu;
+        public String [] schedule_fri;
+        public String [] schedule_sat;
+        public String [] schedule_sun;
+
+
 
         public User() {
             // Default constructor required for calls to DataSnapshot.getValue(User.class)
         }
 
-        public User(String email, String name, String age, String phoneNumber) {
+        public User(String email, String name, String age, String phoneNumber, String gender, Double [] gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
+                    Double experience_aerobic, Double experience_circuit, String [] schedule_mon, String [] schedule_tue, String [] schedule_wed, String [] schedule_thu, String [] schedule_fri, String [] schedule_sat, String [] schedule_sun) {
             this.email = email;
             this.name = name;
             this.age = age;
             this.phoneNumber = phoneNumber;
+            this.gender = gender;
+            this.gym_location = gym_location;
+            this.experience_avg = experience_avg;
+            this.experience_flexibility = experience_flexibility;
+            this.experience_dynamic_strength = experience_dynamic_strength;
+            this.experience_static_strength = experience_static_strength;
+            this.experience_aerobic = experience_aerobic;
+            this.experience_circuit = experience_circuit;
+            this.schedule_mon = schedule_mon;
+            this.schedule_tue = schedule_tue;
+            this.schedule_wed = schedule_wed;
+            this.schedule_thu = schedule_thu;
+            this.schedule_fri = schedule_fri;
+            this.schedule_sat = schedule_sat;
+            this.schedule_sun = schedule_sun;
         }
 
     }
@@ -216,17 +260,17 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         seekBar4.setMax(100);
         seekBar5.setMax(100);
 
-        seekBar1.setProgress(progress1);
-        seekBar2.setProgress(progress2);
-        seekBar3.setProgress(progress3);
-        seekBar4.setProgress(progress4);
-        seekBar5.setProgress(progress5);
+        seekBar1.setProgress(progress1.intValue());
+        seekBar2.setProgress(progress2.intValue());
+        seekBar3.setProgress(progress3.intValue());
+        seekBar4.setProgress(progress4.intValue());
+        seekBar5.setProgress(progress5.intValue());
 
 
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                progress1 = i;
+                progress1 = (double) i;
                 System.out.println(i);
             }
 
@@ -243,7 +287,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                progress2 = i;
+                progress2 = (double) i;
                 System.out.println(i);
             }
 
@@ -260,7 +304,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         seekBar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                progress3 = i;
+                progress3 = (double) i;
                 System.out.println(i);
             }
 
@@ -277,7 +321,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         seekBar4.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                progress4 = i;
+                progress4 = (double) i;
                 System.out.println(i);
             }
 
@@ -294,7 +338,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         seekBar5.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                progress5 = i;
+                progress5 = (double) i;
                 System.out.println(i);
             }
 
@@ -349,56 +393,148 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         monTimes.setListAdapter(adapter1).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
             @Override
             public void onItemsSelected(boolean[] selected) {
+                int count = 0;
                 for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        count++;
+                    }
+
                     System.out.println(String.valueOf(selected[i-1]));
                 }
+                workout_sch_mon = new String[count];
+                for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                    }
+
+
+                }
+
             }
         }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
         tueTimes.setListAdapter(adapter2).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
             @Override
             public void onItemsSelected(boolean[] selected) {
+                int count = 0;
                 for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        count++;
+                    }
+
                     System.out.println(String.valueOf(selected[i-1]));
+                }
+                workout_sch_mon = new String[count];
+                for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                    }
+
+
                 }
             }
         }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
         wedTimes.setListAdapter(adapter3).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
             @Override
             public void onItemsSelected(boolean[] selected) {
+                int count = 0;
                 for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        count++;
+                    }
+
                     System.out.println(String.valueOf(selected[i-1]));
+                }
+                workout_sch_mon = new String[count];
+                for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                    }
+
+
                 }
             }
         }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
         thuTimes.setListAdapter(adapter4).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
             @Override
             public void onItemsSelected(boolean[] selected) {
+                int count = 0;
                 for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        count++;
+                    }
+
                     System.out.println(String.valueOf(selected[i-1]));
+                }
+                workout_sch_mon = new String[count];
+                for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                    }
+
+
                 }
             }
         }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
         friTimes.setListAdapter(adapter5).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
             @Override
             public void onItemsSelected(boolean[] selected) {
+                int count = 0;
                 for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        count++;
+                    }
+
                     System.out.println(String.valueOf(selected[i-1]));
+                }
+                workout_sch_mon = new String[count];
+                for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                    }
+
+
                 }
             }
         }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
         satTimes.setListAdapter(adapter6).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
             @Override
             public void onItemsSelected(boolean[] selected) {
+                int count = 0;
                 for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        count++;
+                    }
+
                     System.out.println(String.valueOf(selected[i-1]));
+                }
+                workout_sch_mon = new String[count];
+                for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                    }
+
+
                 }
             }
         }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
         sunTimes.setListAdapter(adapter7).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
             @Override
             public void onItemsSelected(boolean[] selected) {
+                int count = 0;
                 for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        count++;
+                    }
+
                     System.out.println(String.valueOf(selected[i-1]));
+                }
+                workout_sch_mon = new String[count];
+                for(int i=1; i<25; i++){
+                    if(selected[i] == true){
+                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                    }
+
+
                 }
             }
         }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
