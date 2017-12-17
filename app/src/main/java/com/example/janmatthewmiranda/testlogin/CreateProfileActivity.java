@@ -391,7 +391,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
             if(requestCode == GALLERY_REQUEST){
-                Uri uriOfImage = data.getData();
+                uriOfImage = data.getData();
                 InputStream inputStream;
                 try {
                     inputStream=getContentResolver().openInputStream(uriOfImage);
