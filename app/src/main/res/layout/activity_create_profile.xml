@@ -1,71 +1,325 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/overall"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     tools:context="com.example.janmatthewmiranda.testlogin.CreateProfile">
 
-    <Button
-        android:id="@+id/saveBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="38dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginRight="26dp"
-        android:text="SAVE"
-        tools:layout_editor_absoluteX="248dp"
-        tools:layout_editor_absoluteY="425dp" />
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="Create User Profile"
-        android:textSize="24sp"
-        tools:layout_editor_absoluteX="93dp"
-        tools:layout_editor_absoluteY="123dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:hint="@string/NAME"
-        android:inputType="textPersonName"
-        android:maxLines="1"
-        android:singleLine="true" />
+            <ImageView
+            android:id="@+id/createIcon"
+            android:layout_width="62dp"
+            android:layout_height="85dp"
+            android:layout_gravity="top|center"
+            android:contentDescription="@string/desc"
+            app:srcCompat="@drawable/create" />
 
-    <EditText
-        android:id="@+id/age"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/name"
-        android:layout_alignStart="@+id/name"
-        android:layout_below="@+id/name"
-        android:hint="@string/AGE"
-        android:inputType="textNoSuggestions"
-        android:maxLines="1"
-        android:singleLine="true" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/phoneNumber"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/age"
-        android:layout_alignStart="@+id/age"
-        android:layout_below="@+id/age"
-        android:hint="@string/PHONE_NUMBER"
-        android:inputType="phone"
-        android:maxLines="1"
-        android:singleLine="true" />
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="29dp"
+                    android:layout_gravity="center"
+                    android:text="Name:"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="17sp" />
 
-</android.widget.RelativeLayout>
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:hint="@string/NAME"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="65dp"
+                    android:layout_height="29dp"
+                    android:layout_gravity="center"
+                    android:text="Contact:"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="17sp" />
+
+                <EditText
+                    android:id="@+id/phoneNumber"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:hint="@string/PHONE_NUMBER"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="29dp"
+                    android:layout_gravity="center"
+                    android:text="Age:"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="17sp" />
+
+                <EditText
+                    android:id="@+id/age"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:hint="@string/AGE"
+                    android:inputType="textNoSuggestions"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="29dp"
+                    android:layout_gravity="center"
+                    android:text="Gender:"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="17sp" />
+                <!--TODO-->
+                <Spinner
+                android:id="@+id/genderSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/genders"
+                android:prompt="@string/gender_prompt"/>
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/uploadBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="openGallery"
+                android:text="@string/uploadBtn" />
+
+            <ImageView
+                android:id="@+id/seeImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Search for Your Gym:"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="17sp" />
+            <!--TODO-->
+            <!--Insert Something to Search-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="Experience Level:"
+                android:textColor="@color/colorPrimary"
+                android:textSize="17sp" />
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="89dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Flexibility Training:" />
+
+                <SeekBar
+                    android:id="@+id/seekBar_1"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:max="10"
+                    android:progress="0" />
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="89dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Dynamic Strength Training:" />
+
+                <SeekBar
+                    android:id="@+id/seekBar_2"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="10"
+                    android:progress="0" />
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="89dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Static Strength Training:" />
+
+                <SeekBar
+                    android:id="@+id/seekBar_3"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="10"
+                    android:progress="0" />
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="89dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Aerobic Training:" />
+
+                <SeekBar
+                    android:id="@+id/seekBar_4"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="10"
+                    android:progress="0" />
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="89dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Circuit Training:" />
+
+                <SeekBar
+                    android:id="@+id/seekBar_5"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="10"
+                    android:progress="0" />
+
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="Workout Schedule:"
+                android:textColor="@color/colorPrimary"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="Workout Schedule:"
+                android:textColor="@color/colorPrimary"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="Workout Schedule:"
+                android:textColor="@color/colorPrimary"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="Workout Schedule:"
+                android:textColor="@color/colorPrimary"
+                android:textSize="17sp" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/saveBtn"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
