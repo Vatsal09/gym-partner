@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="Name:"
+                android:text="@string/name_profile_text"
                 android:textColor="@color/colorPrimary"
                 android:textSize="17sp" />
 
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="Contact:"
+                android:text="@string/number_profile_text"
                 android:textColor="@color/colorPrimary"
                 android:textSize="17sp" />
 
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="Age:"
+                android:text="@string/age_profile_text"
                 android:textColor="@color/colorPrimary"
                 android:textSize="17sp" />
 
@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="Gender:"
+                android:text="@string/gender_profile_text"
                 android:textColor="@color/colorPrimary"
                 android:textSize="17sp" />
             <Spinner
@@ -145,7 +145,7 @@
             android:id="@+id/seeImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:contentDescription="Profile Picture"/>
+            android:contentDescription="@string/PROFILE"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -153,7 +153,7 @@
             android:layout_gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="Search for Your Gym:"
+            android:text="@string/profile_text_field_1"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
             android:textSize="17sp" />
@@ -165,7 +165,7 @@
             android:layout_gravity="start"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:text="Experience Level:"
+            android:text="@string/profile_text_field_2"
             android:textColor="@color/colorPrimary"
             android:textSize="17sp" />
 
@@ -178,7 +178,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Flexibility Training:" />
+                android:text="@string/profile_text_field_3" />
 
             <SeekBar
                 android:id="@+id/seekBar_1"
@@ -201,7 +201,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Dynamic Strength Training:" />
+                android:text="@string/profile_text_field_4" />
 
             <SeekBar
                 android:id="@+id/seekBar_2"
@@ -224,7 +224,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Static Strength Training:" />
+                android:text="@string/profile_text_field_5" />
 
             <SeekBar
                 android:id="@+id/seekBar_3"
@@ -247,7 +247,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Aerobic Training:" />
+                android:text="@string/profile_text_field_6" />
 
             <SeekBar
                 android:id="@+id/seekBar_4"
@@ -270,7 +270,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Circuit Training:" />
+                android:text="@string/profile_text_field_7" />
 
             <SeekBar
                 android:id="@+id/seekBar_5"
@@ -290,7 +290,7 @@
             android:layout_gravity="start"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:text="Workout Schedule:"
+            android:text="@string/profile_text_field_8"
             android:textColor="@color/colorPrimary"
             android:textSize="17sp" />
 
@@ -440,7 +440,7 @@
             android:layout_marginRight="100dp"
             android:layout_marginStart="100dp"
             android:layout_weight="1"
-            android:text="Save" />
+            android:text="@string/SAVE" />
 
         <Button
             android:id="@+id/logoutBTNF"
@@ -452,7 +452,7 @@
             android:layout_marginRight="100dp"
             android:layout_marginStart="100dp"
             android:layout_weight="1"
-            android:text="LOGOUT" />
+            android:text="@string/LOGOUT" />
 
     </LinearLayout>
 </ScrollView>

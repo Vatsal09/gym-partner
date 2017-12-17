@@ -3,6 +3,7 @@
     <string name="EMAIL">E-mail</string>
     <string name="PASSWORD">Password</string>
     <string name="LOGIN">Login</string>
+    <string name="LOGOUT">Logout</string>
     <string name="CREATE_USER">Create User</string>
     <string name="REGISTER">Register</string>
     <string name="APP_NAME">GYM PARTNER</string>
@@ -16,6 +17,7 @@
     <string name="AGE">Enter your age (just numbers)</string>
     <string name="PROFILE">PROFILE</string>
     <string name="HOME">HOME</string>
+    <string name="SAVE">SAVE</string>
     <string name="MATCHES">MATCHES</string>
     <string name="Male">Male</string>
     <string name="Female">Female</string>
@@ -27,6 +29,16 @@
 
     <string name="name_profile_text">Name:</string>
     <string name="number_profile_text">Contact:</string>
+    <string name="age_profile_text">Age:</string>
+    <string name="gender_profile_text">Gender:</string>
+    <string name="profile_text_field_1">Search for Your Gym:</string>
+    <string name="profile_text_field_2">Experience Level:</string>
+    <string name="profile_text_field_3">Flexibility Training:</string>
+    <string name="profile_text_field_4">Dynamic Strength Training:</string>
+    <string name="profile_text_field_5">Static Strength Training:</string>
+    <string name="profile_text_field_6">Aerobic Training:</string>
+    <string name="profile_text_field_7">Circuit Training:</string>
+    <string name="profile_text_field_8">Workout Schedule:</string>
     <string-array name="genders">
         <item>Male</item>
         <item>Female</item>
