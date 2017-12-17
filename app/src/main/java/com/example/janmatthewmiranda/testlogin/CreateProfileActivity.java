@@ -418,11 +418,14 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                         if(i < 12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i>=12){
+                        else if(i == 12){
+                            tmp = Integer.toString(i-1) +" AM";
+                        }
+                        else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
                         else{
-
+                            System.out.println("Error at the Multiselect Outputs to List");
                         }
                         // String.valueOf(selected[i-1]
                         workout_sch_mon[count-1] = tmp;
@@ -452,11 +455,14 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                         if(i < 12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i>=12){
+                        else if(i == 12){
+                            tmp = Integer.toString(i-1) +" AM";
+                        }
+                        else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
                         else{
-
+                            System.out.println("Error at the Multiselect Outputs to List");
                         }
                         // String.valueOf(selected[i-1]
                         workout_sch_tue[count-1] = tmp;
@@ -486,11 +492,14 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                         if(i < 12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i>=12){
+                        else if(i == 12){
+                            tmp = Integer.toString(i-1) +" AM";
+                        }
+                        else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
                         else{
-
+                            System.out.println("Error at the Multiselect Outputs to List");
                         }
                         // String.valueOf(selected[i-1]
                         workout_sch_wed[count-1] = tmp;
@@ -520,11 +529,14 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                         if(i < 12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i>=12){
+                        else if(i == 12){
+                            tmp = Integer.toString(i-1) +" AM";
+                        }
+                        else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
                         else{
-
+                            System.out.println("Error at the Multiselect Outputs to List");
                         }
                         // String.valueOf(selected[i-1]
                         workout_sch_thu[count-1] = tmp;
@@ -554,11 +566,14 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                         if(i < 12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i>=12){
+                        else if(i == 12){
+                            tmp = Integer.toString(i-1) +" AM";
+                        }
+                        else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
                         else{
-
+                            System.out.println("Error at the Multiselect Outputs to List");
                         }
                         // String.valueOf(selected[i-1]
                         workout_sch_fri[count-1] = tmp;
@@ -588,11 +603,14 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                         if(i < 12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i>=12){
+                        else if(i == 12){
+                            tmp = Integer.toString(i-1) +" AM";
+                        }
+                        else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
                         else{
-
+                            System.out.println("Error at the Multiselect Outputs to List");
                         }
                         // String.valueOf(selected[i-1]
                         workout_sch_sat[count-1] = tmp;
@@ -622,11 +640,14 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                         if(i < 12){
                             tmp = Integer.toString(i) +" AM";
                         }
-                        else if(i>=12){
+                        else if(i == 12){
+                            tmp = Integer.toString(i-1) +" AM";
+                        }
+                        else if(i>12){
                             tmp = Integer.toString(i-12) +" PM";
                         }
                         else{
-
+                            System.out.println("Error at the Multiselect Outputs to List");
                         }
                         // String.valueOf(selected[i-1]
                         workout_sch_sun[count-1] = tmp;
