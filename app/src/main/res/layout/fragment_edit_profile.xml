@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,9 +6,6 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/editProfile"
@@ -43,6 +40,5 @@
             android:layout_marginEnd="36dp"
             android:layout_marginRight="36dp"
             android:text="SAVE" />
-    </RelativeLayout>
 
-</FrameLayout>
+</RelativeLayout>
