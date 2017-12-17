@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private FirebaseAuth firebaseAuth;
 //    private TextView emailText;
-    private Button logoutBtn;
     private Button profileBtn;
     private Button homeBtn;
     private Button matchesBtn;
