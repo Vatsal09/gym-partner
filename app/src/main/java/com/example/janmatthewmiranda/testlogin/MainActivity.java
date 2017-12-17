@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private FirebaseAuth firebaseAuth;
 //    private TextView emailText;
-    private Button logoutBtn;
+//    private Button logoutBtn;
     private Button profileBtn;
     private Button homeBtn;
     private Button matchesBtn;
@@ -45,11 +45,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         profileBtn = (Button) findViewById(R.id.profileBtn);
         homeBtn = (Button) findViewById(R.id.homeBtn);
         matchesBtn = (Button) findViewById(R.id.matchesBtn);
-        logoutBtn = (Button) findViewById(R.id.logoutBtn);
+//        logoutBtn = (Button) findViewById(R.id.logoutBtn);
 
         Toast.makeText(getBaseContext(), "Welcome " + user.getEmail(), Toast.LENGTH_SHORT).show();
 
-        logoutBtn.setOnClickListener(this);
+//        logoutBtn.setOnClickListener(this);
         profileBtn.setOnClickListener(this);
         homeBtn.setOnClickListener(this);
         matchesBtn.setOnClickListener(this);
@@ -90,9 +90,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ft.replace(R.id.frameLayout, fmatches);
             ft.commit();
         }
-        if(v == logoutBtn) {
-            logoutUser();
-        }
+//        if(v == logoutBtn) {
+//            logoutUser();
+//        }
     }
 
     @Override
