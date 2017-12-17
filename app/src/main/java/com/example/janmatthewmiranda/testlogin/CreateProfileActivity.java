@@ -98,6 +98,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
 
         database = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
 
         if(firebaseAuth.getCurrentUser() == null) {
             finish();
@@ -520,7 +521,6 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                         workout_sch_wed[count-1] = tmp;
                         count--;
                     }
-
 
                 }
 
