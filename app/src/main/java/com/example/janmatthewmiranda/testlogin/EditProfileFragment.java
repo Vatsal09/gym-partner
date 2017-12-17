@@ -8,7 +8,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
 
 
 /**
@@ -29,8 +44,21 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
     private String mParam1;
     private String mParam2;
 
+    long startTime = System.currentTimeMillis();
     private Button logoutBtnF;
     private Button saveBtn;
+
+    public EditText nameEditText;
+    public EditText numberEditText;
+    public EditText ageEditText;
+
+    private MultiSelectSpinner monTimes;
+    private MultiSelectSpinner tueTimes;
+    private MultiSelectSpinner wedTimes;
+    private MultiSelectSpinner thuTimes;
+    private MultiSelectSpinner friTimes;
+    private MultiSelectSpinner satTimes;
+    private MultiSelectSpinner sunTimes;
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,6 +86,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        startTime = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -71,7 +100,73 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        nameEditText = view.findViewById(R.id.name);
+        numberEditText = view.findViewById(R.id.phoneNumber);
+        ageEditText = view.findViewById(R.id.age);
 
+
+        monTimes = (MultiSelectSpinner) view.findViewById(R.id.multiselectSpinnerMon);
+        tueTimes = (MultiSelectSpinner) view.findViewById(R.id.multiselectSpinnerTue);
+        wedTimes = (MultiSelectSpinner) view.findViewById(R.id.multiselectSpinnerWed);
+        thuTimes = (MultiSelectSpinner) view.findViewById(R.id.multiselectSpinnerThu);
+        friTimes = (MultiSelectSpinner) view.findViewById(R.id.multiselectSpinnerFri);
+        satTimes = (MultiSelectSpinner) view.findViewById(R.id.multiselectSpinnerSat);
+        sunTimes = (MultiSelectSpinner) view.findViewById(R.id.multiselectSpinnerSun);
+        setMultiSelect();
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String userID = currentUser.getUid();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference usersRef = database.getReference("users");
+        usersRef.orderByKey().equalTo(userID).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                Iterable<DataSnapshot> s = dataSnapshot.getChildren();
+                Iterator<DataSnapshot> i = s.iterator();
+                while (i.hasNext()) {
+                    DataSnapshot child = i.next();
+                    switch (child.getKey()) {
+                        case "name" :
+                            Log.d("name", child.getValue().toString());
+                            nameEditText.setText(child.getValue().toString());
+                            break;
+                        case "age" :
+                            ageEditText.setText(child.getValue().toString());
+                            break;
+                        case "phoneNumber" :
+                            numberEditText.setText(child.getValue().toString());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        Log.d("time", totalTime + "");
         logoutBtnF = (Button) view.findViewById(R.id.logoutBTNF);
         logoutBtnF.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,5 +254,78 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         void onFragmentInteraction(Uri uri);
         void onLogoutSelected();
     }
+    public void setMultiSelect(){
+        ArrayList<String> times = new ArrayList<>();
+        for(int i=1; i<13;i++){
+            times.add(Integer.toString(i) + " AM");
+        }
+        for(int i=1; i<13;i++){
+            times.add(Integer.toString(i) + " PM");
+        }
 
+        ArrayAdapter<String> adapter1 = new ArrayAdapter <String>(getActivity(), android.R.layout.simple_list_item_activated_1, times);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter <String>(getActivity(), android.R.layout.simple_list_item_activated_1, times);
+        ArrayAdapter<String> adapter3 = new ArrayAdapter <String>(getActivity(), android.R.layout.simple_list_item_activated_1, times);
+        ArrayAdapter<String> adapter4 = new ArrayAdapter <String>(getActivity(), android.R.layout.simple_list_item_activated_1, times);
+        ArrayAdapter<String> adapter5 = new ArrayAdapter <String>(getActivity(), android.R.layout.simple_list_item_activated_1, times);
+        ArrayAdapter<String> adapter6 = new ArrayAdapter <String>(getActivity(), android.R.layout.simple_list_item_activated_1, times);
+        ArrayAdapter<String> adapter7 = new ArrayAdapter <String>(getActivity(), android.R.layout.simple_list_item_activated_1, times);
+
+        monTimes.setListAdapter(adapter1).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
+        tueTimes.setListAdapter(adapter2).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
+        wedTimes.setListAdapter(adapter3).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
+        thuTimes.setListAdapter(adapter4).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
+        friTimes.setListAdapter(adapter5).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
+        satTimes.setListAdapter(adapter6).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
+        sunTimes.setListAdapter(adapter7).setListener(new MultiSelectSpinner.MultiSpinnerListener() {
+            @Override
+            public void onItemsSelected(boolean[] selected) {
+                for(int i=1; i<25; i++){
+                    System.out.println(String.valueOf(selected[i-1]));
+                }
+            }
+        }).setAllCheckedText("Available at All Hours").setAllUncheckedText("Not Free to Workout").setSelectAll(false).setTitle(getResources().getString(R.string.title)).setMinSelectedItems(0);
+    }
 }
