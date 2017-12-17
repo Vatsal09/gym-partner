@@ -1,12 +1,17 @@
 package com.example.janmatthewmiranda.testlogin;
 
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +32,11 @@ public class matchesFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private TextView matchText, gymText, experienceText;
+    private ImageButton matchButton, passButton;
+    private ImageView matchImage;
+
 
     public matchesFragment() {
         // Required empty public constructor
@@ -62,9 +72,22 @@ public class matchesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+
+        matchText = (TextView) view.findViewById(R.id.home_match_name);
+        gymText = (TextView) view.findViewById(R.id.home_gym_name);
+        experienceText = (TextView) view.findViewById(R.id.home_experience_match);
+
+        matchButton = (ImageButton) view.findViewById(R.id.match_button);
+        passButton = (ImageButton) view.findViewById(R.id.pass_button);
+
+        matchImage = (ImageView) view.findViewById(R.id.match_picture);
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_matches, container, false);
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

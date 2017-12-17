@@ -51,10 +51,6 @@ public class CreateProfile extends AppCompatActivity implements View.OnClickList
     private SeekBar seekBar5;
 
 
-
-
-
-
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase database;
     private DatabaseReference mDatabase;
