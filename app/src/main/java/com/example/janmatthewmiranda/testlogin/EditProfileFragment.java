@@ -4,24 +4,22 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link homeFragment.OnFragmentInteractionListener} interface
+ * {@link EditProfileFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link homeFragment#newInstance} factory method to
+ * Use the {@link EditProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class homeFragment extends Fragment {
+public class EditProfileFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,13 +29,12 @@ public class homeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private TextView matchText, gymText, experienceText;
-    private ImageButton matchButton, passButton;
-    private ImageView matchImage;
+    private Button logoutBtnF;
+    private Button saveBtn;
 
     private OnFragmentInteractionListener mListener;
 
-    public homeFragment() {
+    public EditProfileFragment() {
         // Required empty public constructor
     }
 
@@ -47,11 +44,11 @@ public class homeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment homeFragment.
+     * @return A new instance of fragment EditProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static homeFragment newInstance(String param1, String param2) {
-        homeFragment fragment = new homeFragment();
+    public static EditProfileFragment newInstance(String param1, String param2) {
+        EditProfileFragment fragment = new EditProfileFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -72,46 +69,78 @@ public class homeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-
-        matchText = (TextView) view.findViewById(R.id.home_match_name);
-        gymText = (TextView) view.findViewById(R.id.home_gym_name);
-        experienceText = (TextView) view.findViewById(R.id.home_experience_match);
-
-        matchButton = (ImageButton) view.findViewById(R.id.match_button);
-        passButton = (ImageButton) view.findViewById(R.id.pass_button);
-
-        matchImage = (ImageView) view.findViewById(R.id.match_picture);
-
-
         // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+
+        logoutBtnF = (Button) view.findViewById(R.id.logoutBTNF);
+        logoutBtnF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("logout", "Logout successful");
+                //mListener.onLogoutSelected();
+                mListener.onFragmentInteraction(null);
+            }
+        });
+        Log.d("button view", logoutBtnF.toString());
+        saveBtn = (Button) view.findViewById(R.id.saveBtn);
         return view;
     }
-
+/*
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
-
+*/
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            Log.d("this runs","right here");
+            mListener = (OnFragmentInteractionListener) context;
+            Log.d("context", mListener.toString());
+        }
+        catch (ClassCastException e){
+            throw new ClassCastException(context.toString() + " must implement OnFragmentInteractionListener");
+        }
+        /*
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        */
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {/*
+        switch (v.getId()) {
+            case R.id.logoutBTNF:
+                Log.d("logout", "Logout successful");
+                //mListener.onLogoutSelected();
+                mListener.onFragmentInteraction(null);
+                break;
+            default:
+                break;
+        }/*
+        if(v.getId() == R.id.logoutBTNF) {
+            Log.d("logout", "Logout successful");
+            //FirebaseAuth.getInstance().signOut();
+            //getActivity().finish();
+            mListener.onLogoutSelected();
+            //logout function
+        }*/
+        if (v == saveBtn) {
+            //update user in database
+        }
     }
 
     /**
@@ -126,6 +155,9 @@ public class homeFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+
         void onFragmentInteraction(Uri uri);
+        void onLogoutSelected();
     }
+
 }

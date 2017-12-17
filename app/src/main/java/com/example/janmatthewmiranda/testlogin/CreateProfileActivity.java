@@ -157,11 +157,12 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         String aAge = age.getText().toString();
         String pphoneNumber = phoneNumber.getText().toString();
         String email = user.getEmail().toString();
+        String userID = user.getUid();
 
         mDatabase = database.getReference();
 
         User user = new User(email, nName, aAge, pphoneNumber);
-        mDatabase.child("users").child(nName).setValue(user);
+        mDatabase.child("users").child(userID).setValue(user);
 
         //Moves to Homepage
         finish();

@@ -14,6 +14,9 @@
     <string name="NAME">Enter your full name</string>
     <string name="PHONE_NUMBER">Enter your phone number (just numbers)</string>
     <string name="AGE">Enter your age (just numbers)</string>
+    <string name="PROFILE">PROFILE</string>
+    <string name="HOME">HOME</string>
+    <string name="MATCHES">MATCHES</string>
     <string name="Male">Male</string>
     <string name="Female">Female</string>
     <string name="desc">Add User Icon</string>

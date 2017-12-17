@@ -7,18 +7,20 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link editProfileFragment.OnFragmentInteractionListener} interface
+ * {@link HomeFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link editProfileFragment#newInstance} factory method to
+ * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class editProfileFragment extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,12 +30,13 @@ public class editProfileFragment extends Fragment implements View.OnClickListene
     private String mParam1;
     private String mParam2;
 
-    private Button logoutBtnF;
-    private Button saveBtn;
+    private TextView matchText, gymText, experienceText;
+    private ImageButton matchButton, passButton;
+    private ImageView matchImage;
 
     private OnFragmentInteractionListener mListener;
 
-    public editProfileFragment() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
@@ -43,11 +46,11 @@ public class editProfileFragment extends Fragment implements View.OnClickListene
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment editProfileFragment.
+     * @return A new instance of fragment HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static editProfileFragment newInstance(String param1, String param2) {
-        editProfileFragment fragment = new editProfileFragment();
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,13 +65,28 @@ public class editProfileFragment extends Fragment implements View.OnClickListene
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+
+        matchText = (TextView) view.findViewById(R.id.home_match_name);
+        gymText = (TextView) view.findViewById(R.id.home_gym_name);
+        experienceText = (TextView) view.findViewById(R.id.home_experience_match);
+
+        matchButton = (ImageButton) view.findViewById(R.id.match_button);
+        passButton = (ImageButton) view.findViewById(R.id.pass_button);
+
+        matchImage = (ImageView) view.findViewById(R.id.match_picture);
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -93,16 +111,6 @@ public class editProfileFragment extends Fragment implements View.OnClickListene
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(v == logoutBtnF) {
-            //logout function
-        }
-        if (v == saveBtn) {
-            //update user in database
-        }
     }
 
     /**

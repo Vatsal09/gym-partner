@@ -1,66 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.janmatthewmiranda.testlogin.MainActivity">
 
-    <!--<TextView-->
-        <!--android:id="@+id/emailText"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_marginTop="116dp"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textSize="14sp"-->
-        <!--android:textStyle="bold"-->
-        <!--android:visibility="visible" />-->
-
-    <!--<Button-->
-        <!--android:id="@+id/logoutBtn"-->
-        <!--android:layout_width="200dp"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginBottom="61dp"-->
-        <!--android:text="Logout" />-->
-
     <LinearLayout
+        android:id="@+id/MenuBar"
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/linearLayout">
+        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/logoutBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="LOGOUT" />
 
         <Button
             android:id="@+id/profileBtn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="PROFILE" />
+            android:text="@string/PROFILE" />
 
         <Button
             android:id="@+id/homeBtn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="HOME" />
+            android:text="@string/HOME" />
 
         <Button
             android:id="@+id/matchesBtn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="MATCHES" />
+            android:text="@string/MATCHES" />
     </LinearLayout>
 
     <FrameLayout
@@ -69,7 +44,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout">
+        android:layout_below="@+id/MenuBar">
 
     </FrameLayout>
 </android.widget.RelativeLayout>
