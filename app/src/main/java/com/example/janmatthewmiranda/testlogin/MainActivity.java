@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener, homeFragment.OnFragmentInteractionListener, editProfileFragment.OnFragmentInteractionListener, matchesFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, homeFragment.OnFragmentInteractionListener, editProfileFragment.OnFragmentInteractionListener, matchesFragment.OnFragmentInteractionListener {
 
     private FirebaseAuth firebaseAuth;
 //    private TextView emailText;

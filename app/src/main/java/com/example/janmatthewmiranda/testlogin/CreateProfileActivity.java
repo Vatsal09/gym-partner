@@ -143,7 +143,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
 
         //Moves to Homepage
         finish();
-        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 
     @IgnoreExtraProperties
