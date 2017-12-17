@@ -391,14 +391,11 @@
         </LinearLayout>
 
 
-
-
-
-
             <Button
+                android:id="@+id/saveBtn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/saveBtn"/>
+                android:text="Save" />
         </LinearLayout>
     </ScrollView>
 
