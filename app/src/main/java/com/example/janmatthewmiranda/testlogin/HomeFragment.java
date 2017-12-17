@@ -11,6 +11,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +45,16 @@ public class HomeFragment extends Fragment {
     private TextView matchText, gymText, experienceText;
     private ImageButton matchButton, passButton;
     private ImageView matchImage;
+
+    private DatabaseReference databaseReference;
+    private DatabaseReference logReference;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private String userGymCoordinates;
+    private ArrayList<CreateProfileActivity.User> matchesArrayList;
+    private int counter;
+    private double userExperienceAvg;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -74,6 +96,74 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        String userID = firebaseUser.getUid();
+        counter = 0;
+
+
+        // Get current user's gym
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference userRef = ref.child("users").child(userID).child("gym");
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userGymCoordinates = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        // Get current user's experience level
+        userRef = ref.child("users").child(userID).child("experience_avg");
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Double userExperienceAvg = dataSnapshot.getValue(Double.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        // Get all users with same gym as user selected gym
+        databaseReference.child("users").orderByChild("gym").equalTo(userGymCoordinates).addChildEventListener(new ChildEventListener() {
+            @Override
+            // Collect users with the same gym and put it into arraylist.
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                CreateProfileActivity.User user = dataSnapshot.getValue(CreateProfileActivity.User.class);
+                matchesArrayList.add(user);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         matchText = (TextView) view.findViewById(R.id.home_match_name);
         gymText = (TextView) view.findViewById(R.id.home_gym_name);
@@ -84,6 +174,13 @@ public class HomeFragment extends Fragment {
 
         matchImage = (ImageView) view.findViewById(R.id.match_picture);
 
+
+        // Initialize first matches view
+        matchText.setText(matchesArrayList.get(counter).name);
+        gymText.setText(matchesArrayList.get(counter).gymName);
+
+
+//        Double experienceDifference =
 
         // Inflate the layout for this fragment
         return view;
