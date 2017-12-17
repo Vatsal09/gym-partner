@@ -36,6 +36,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class CreateProfileActivity extends AppCompatActivity implements View.OnClickListener{
@@ -169,10 +171,18 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         String email = user.getEmail().toString();
         String userID = user.getUid();
         Double eExperience_avg = (progress1 + progress2 + progress3 + progress4 + progress5)/5.0;
+        List mon = new ArrayList<String>(Arrays.asList(workout_sch_mon));
+        List tue = new ArrayList<String>(Arrays.asList(workout_sch_tue));
+        List wed = new ArrayList<String>(Arrays.asList(workout_sch_wed));
+        List thu = new ArrayList<String>(Arrays.asList(workout_sch_thu));
+        List fri = new ArrayList<String>(Arrays.asList(workout_sch_fri));
+        List sat = new ArrayList<String>(Arrays.asList(workout_sch_sat));
+        List sun = new ArrayList<String>(Arrays.asList(workout_sch_sun));
+        List coordinates = new ArrayList<Double>(Arrays.asList(LatLang));
 
         mDatabase = database.getReference();
 
-        User user = new User(email, nName, aAge, pphoneNumber, genderSelected, LatLang, eExperience_avg, progress1, progress2, progress3, progress4, progress5, workout_sch_mon, workout_sch_tue, workout_sch_wed, workout_sch_thu, workout_sch_fri, workout_sch_sat, workout_sch_sun);
+        User user = new User(email, nName, aAge, pphoneNumber, genderSelected, coordinates, eExperience_avg, progress1, progress2, progress3, progress4, progress5, mon, tue, wed, thu, fri, sat, sun);
         mDatabase.child("users").child(userID).setValue(user);
 
         //Moves to Homepage
@@ -188,20 +198,20 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         public String age;
         public String phoneNumber;
         public String gender;
-        public Double [] gym_location;
+        public List gym_location;
         public Double experience_avg;
         public Double experience_flexibility;
         public Double experience_dynamic_strength;
         public Double experience_static_strength;
         public Double experience_aerobic;
         public Double experience_circuit;
-        public String [] schedule_mon;
-        public String [] schedule_tue;
-        public String [] schedule_wed;
-        public String [] schedule_thu;
-        public String [] schedule_fri;
-        public String [] schedule_sat;
-        public String [] schedule_sun;
+        public List schedule_mon;
+        public List schedule_tue;
+        public List schedule_wed;
+        public List schedule_thu;
+        public List schedule_fri;
+        public List schedule_sat;
+        public List schedule_sun;
 
 
 
@@ -209,8 +219,8 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             // Default constructor required for calls to DataSnapshot.getValue(User.class)
         }
 
-        public User(String email, String name, String age, String phoneNumber, String gender, Double [] gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
-                    Double experience_aerobic, Double experience_circuit, String [] schedule_mon, String [] schedule_tue, String [] schedule_wed, String [] schedule_thu, String [] schedule_fri, String [] schedule_sat, String [] schedule_sun) {
+        public User(String email, String name, String age, String phoneNumber, String gender, List gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
+                    Double experience_aerobic, Double experience_circuit, List schedule_mon, List schedule_tue, List schedule_wed, List schedule_thu, List schedule_fri, List schedule_sat, List schedule_sun) {
             this.email = email;
             this.name = name;
             this.age = age;
@@ -260,11 +270,11 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         seekBar4.setMax(100);
         seekBar5.setMax(100);
 
-        seekBar1.setProgress(progress1.intValue());
-        seekBar2.setProgress(progress2.intValue());
-        seekBar3.setProgress(progress3.intValue());
-        seekBar4.setProgress(progress4.intValue());
-        seekBar5.setProgress(progress5.intValue());
+        seekBar1.setProgress(0);
+        seekBar2.setProgress(0);
+        seekBar3.setProgress(0);
+        seekBar4.setProgress(0);
+        seekBar5.setProgress(0);
 
 
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -395,7 +405,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             public void onItemsSelected(boolean[] selected) {
                 int count = 0;
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
+                    if(selected[i-1] == true){
                         count++;
                     }
 
@@ -403,7 +413,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 }
                 workout_sch_mon = new String[count];
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
+                    if(selected[i-1] == true){
                         workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
                     }
 
@@ -417,16 +427,16 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             public void onItemsSelected(boolean[] selected) {
                 int count = 0;
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
+                    if(selected[i-1] == true){
                         count++;
                     }
 
                     System.out.println(String.valueOf(selected[i-1]));
                 }
-                workout_sch_mon = new String[count];
+                workout_sch_tue = new String[count];
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
-                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                    if(selected[i-1] == true){
+                        workout_sch_tue[count-1] = String.valueOf(selected[i-1]);
                     }
 
 
@@ -438,16 +448,16 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             public void onItemsSelected(boolean[] selected) {
                 int count = 0;
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
+                    if(selected[i-1] == true){
                         count++;
                     }
 
                     System.out.println(String.valueOf(selected[i-1]));
                 }
-                workout_sch_mon = new String[count];
+                workout_sch_wed = new String[count];
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
-                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                    if(selected[i-1] == true){
+                        workout_sch_wed[count-1] = String.valueOf(selected[i-1]);
                     }
 
 
@@ -459,16 +469,16 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             public void onItemsSelected(boolean[] selected) {
                 int count = 0;
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
+                    if(selected[i-1] == true){
                         count++;
                     }
 
                     System.out.println(String.valueOf(selected[i-1]));
                 }
-                workout_sch_mon = new String[count];
+                workout_sch_thu = new String[count];
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
-                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                    if(selected[i-1] == true){
+                        workout_sch_thu[count-1] = String.valueOf(selected[i-1]);
                     }
 
 
@@ -480,16 +490,16 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             public void onItemsSelected(boolean[] selected) {
                 int count = 0;
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
+                    if(selected[i-1] == true){
                         count++;
                     }
 
                     System.out.println(String.valueOf(selected[i-1]));
                 }
-                workout_sch_mon = new String[count];
+                workout_sch_fri = new String[count];
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
-                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                    if(selected[i-1] == true){
+                        workout_sch_fri[count-1] = String.valueOf(selected[i-1]);
                     }
 
 
@@ -501,16 +511,16 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             public void onItemsSelected(boolean[] selected) {
                 int count = 0;
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
+                    if(selected[i-1] == true){
                         count++;
                     }
 
                     System.out.println(String.valueOf(selected[i-1]));
                 }
-                workout_sch_mon = new String[count];
+                workout_sch_sat = new String[count];
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
-                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                    if(selected[i-1] == true){
+                        workout_sch_sat[count-1] = String.valueOf(selected[i-1]);
                     }
 
 
@@ -522,16 +532,16 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             public void onItemsSelected(boolean[] selected) {
                 int count = 0;
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
+                    if(selected[i-1] == true){
                         count++;
                     }
 
                     System.out.println(String.valueOf(selected[i-1]));
                 }
-                workout_sch_mon = new String[count];
+                workout_sch_sun = new String[count];
                 for(int i=1; i<25; i++){
-                    if(selected[i] == true){
-                        workout_sch_mon[count-1] = String.valueOf(selected[i-1]);
+                    if(selected[i-1] == true){
+                        workout_sch_sun[count-1] = String.valueOf(selected[i-1]);
                     }
 
 
