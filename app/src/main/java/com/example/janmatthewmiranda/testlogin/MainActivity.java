@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -176,6 +177,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        ft.commit();
 
     }
+
+    public class newUser {
+        public String name;
+        public String experience_avg;
+        public String gymName;
+        public String phoneNumber;
+        public List<HashMap> matchList;
+
+        public  newUser(String name, String experience_avg, String gymName, String phoneNumber, List<HashMap> matchList) {
+            this.name = name;
+            this.experience_avg = experience_avg;
+            this.gymName = gymName;
+            this.phoneNumber = phoneNumber;
+            this.matchList = matchList;
+        }
+        //newUser(String name, String experience_avg, String gymName, String phoneNumber, List<HashMap> matchList)  {
+
+    }
+
+    // newUser user1("test", "31.2", "Sonny Werblin Recreation Center", "8378", )
 
     public void logoutUser() {
         firebaseAuth.signOut();
