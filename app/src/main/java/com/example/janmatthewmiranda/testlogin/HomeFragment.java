@@ -102,6 +102,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
+        matchesArrayList = new ArrayList<>();
+
         userID = firebaseUser.getUid();
         counter = 0;
 
@@ -166,7 +168,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             }
         });
-
         matchText = (TextView) view.findViewById(R.id.home_match_name);
         gymText = (TextView) view.findViewById(R.id.home_gym_name);
         experienceText = (TextView) view.findViewById(R.id.home_experience_match);
@@ -176,68 +177,75 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         matchImage = (ImageView) view.findViewById(R.id.match_picture);
 
-        // Initialize first matches view
-        matchText.setText(matchesArrayList.get(counter).name);
-        gymText.setText(matchesArrayList.get(counter).gymName);
-
-        Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesArrayList.get(counter).experience_avg);
-        experienceText.setText(experienceDifference + "% Experience Match");
-
-        matchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Set values of card to the next potential partner
-                counter++;
-                matchText.setText(matchesArrayList.get(counter).name);
-                gymText.setText(matchesArrayList.get(counter).gymName);
-
-                Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesArrayList.get(counter).experience_avg);
-                experienceText.setText(experienceDifference + "% Experience Match");
-
-                // Add match to current users matchlist into the database
-                databaseReference.child("users").child(userID).child("matchList").child(matchesArrayList.get(counter).userID).child("state").setValue("Pending");
 
 
-                // Now check if the other person has matched with you or not
+        if (matchesArrayList.size() == 0) {
 
-                if(checkIfMatched((matchesArrayList.get(counter).userID))) {
+        }
+
+        else {
+            // Initialize first matches view
+            matchText.setText(matchesArrayList.get(counter).name);
+            gymText.setText(matchesArrayList.get(counter).gymName);
+
+            Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesArrayList.get(counter).experience_avg);
+            experienceText.setText(experienceDifference + "% Experience Match");
+
+            matchButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Set values of card to the next potential partner
+                    counter++;
+                    matchText.setText(matchesArrayList.get(counter).name);
+                    gymText.setText(matchesArrayList.get(counter).gymName);
+
+                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesArrayList.get(counter).experience_avg);
+                    experienceText.setText(experienceDifference + "% Experience Match");
+
+                    // Add match to current users matchlist into the database
+                    databaseReference.child("users").child(userID).child("matchList").child(matchesArrayList.get(counter).userID).child("state").setValue("Pending");
 
 
-                }
+                    // Now check if the other person has matched with you or not
+
+                    if (checkIfMatched(matchesArrayList.get(counter).userID)) {
+
+//                        if (checkState())
+
+                    }
 
 
-                databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("isAccepted").setValue(true);
-
-                // Now check if the other person has matched with you or not
-
-                if(checkIfMatched((matchesArrayList.get(counter).userID))) {
                     databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("isAccepted").setValue(true);
+
+                    // Now check if the other person has matched with you or not
+
+                    if (checkIfMatched((matchesArrayList.get(counter).userID))) {
+                        databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("isAccepted").setValue(true);
+                    }
+
+                    databaseReference.child("users").child(userID).child("matchList").child("userID").child("isAccepted").setValue(true);
+
+
+                    databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("check").setValue(true);
+
+                    //                        child("check").setValue(true);
+                    //                databaseReference.child("users").child(userID).child("matchList").child("hasReceived").setValue(true);
                 }
+            });
 
-                databaseReference.child("users").child(userID).child("matchList").child("userID").child("isAccepted").setValue(true);
+            passButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Set values of card to the next potential partner
+                    counter++;
+                    matchText.setText(matchesArrayList.get(counter).name);
+                    gymText.setText(matchesArrayList.get(counter).gymName);
 
-
-
-                databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("check").setValue(true);
-
-//                        child("check").setValue(true);
-//                databaseReference.child("users").child(userID).child("matchList").child("hasReceived").setValue(true);
-            }
-        });
-
-        passButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Set values of card to the next potential partner
-                counter++;
-                matchText.setText(matchesArrayList.get(counter).name);
-                gymText.setText(matchesArrayList.get(counter).gymName);
-
-                Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesArrayList.get(counter).experience_avg);
-                experienceText.setText(experienceDifference + "% Experience Match");
-            }
-        });
-
+                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesArrayList.get(counter).experience_avg);
+                    experienceText.setText(experienceDifference + "% Experience Match");
+                }
+            });
+        }
         // Inflate the layout for this fragment
         return view;
     }
@@ -249,16 +257,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Double checkID = dataSnapshot.getValue(Double.class);
-                if (checkID.equals(userID)) {
-                    checkMatch = true;
-//                    databaseReference.child("users").child(userID).child("matchList").child("userID").child("isAccepted").setValue(true);
-//                    databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("isAccepted").setValue(true);
-                    // TODO: ADD NOTIFICATION FUNCTIONALLITY
-
-
-
-                }
+                String stateCheck = dataSnapshot.getValue(String.class);
+                state = stateCheck;
             }
 
             @Override
@@ -267,7 +267,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
         return state;
-
     }
 
     public boolean checkIfMatched(String matchID) {
@@ -280,12 +279,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Double checkID = dataSnapshot.getValue(Double.class);
                 if (checkID.equals(userID)) {
                     checkMatch = true;
-//                    databaseReference.child("users").child(userID).child("matchList").child("userID").child("isAccepted").setValue(true);
-//                    databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("isAccepted").setValue(true);
-                    // TODO: ADD NOTIFICATION FUNCTIONALLITY
-
-
-
                 }
             }
 
