@@ -170,6 +170,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //                matchesList.add(user);
             }
 
+
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
