@@ -194,17 +194,11 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         List coordinates = new ArrayList<Double>(Arrays.asList(LatLang));
         String coords = ("lat: " + LatLang[0] + ", long: " + LatLang[1]);
 
-
-
-
-
-
-
         List match_list = new ArrayList<String>();
         mDatabase = database.getReference();
 
 
-        User user = new User(email, nName, aAge, pphoneNumber, genderSelected, imageLink, destination, coordinates, eExperience_avg, progress1, progress2, progress3, progress4, progress5, mon, tue, wed, thu, fri, sat, sun, match_list);
+        User user = new User(userID, email, nName, aAge, pphoneNumber, genderSelected, imageLink, destination, coordinates, eExperience_avg, progress1, progress2, progress3, progress4, progress5, mon, tue, wed, thu, fri, sat, sun, match_list);
         mDatabase.child("users").child(userID).setValue(user);
 
         //Moves to Homepage
@@ -215,6 +209,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     @IgnoreExtraProperties
     public static class User {
 
+        public String userID;
         public String email;
         public String name;
         public String age;
@@ -244,8 +239,9 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             // Default constructor required for calls to DataSnapshot.getValue(User.class)
         }
 
-        public User(String email, String name, String age, String phoneNumber, String gender, String imageLink, String gymName, List gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
+        public User(String userID, String email, String name, String age, String phoneNumber, String gender, String imageLink, String gymName, List gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
                     Double experience_aerobic, Double experience_circuit, List schedule_mon, List schedule_tue, List schedule_wed, List schedule_thu, List schedule_fri, List schedule_sat, List schedule_sun, List matchList) {
+            this.userID = userID;
             this.email = email;
             this.name = name;
             this.age = age;
