@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
 
-    private TextView matchText, gymText, experienceText;
+    private TextView matchText, gymText, experienceText, sorryText;
     private ImageButton matchButton, passButton;
     private ImageView matchImage;
 
@@ -171,6 +171,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         matchText = (TextView) view.findViewById(R.id.home_match_name);
         gymText = (TextView) view.findViewById(R.id.home_gym_name);
         experienceText = (TextView) view.findViewById(R.id.home_experience_match);
+        sorryText = (TextView) view.findViewById(R.id.sorry_message);
 
         matchButton = (ImageButton) view.findViewById(R.id.match_button);
         passButton = (ImageButton) view.findViewById(R.id.pass_button);
@@ -180,7 +181,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
         if (matchesArrayList.size() == 0) {
+            matchText.setVisibility(View.INVISIBLE);
+            gymText.setVisibility(View.INVISIBLE);
+            experienceText.setVisibility(View.INVISIBLE);
+            sorryText.setVisibility(View.VISIBLE);
 
+            matchButton.setVisibility(View.INVISIBLE);
+            passButton.setVisibility(View.INVISIBLE);
         }
 
         else {
@@ -201,7 +208,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesArrayList.get(counter).experience_avg);
                     experienceText.setText(experienceDifference + "% Experience Match");
-
                     // Add match to current users matchlist into the database
                     databaseReference.child("users").child(userID).child("matchList").child(matchesArrayList.get(counter).userID).child("state").setValue("Pending");
 
@@ -210,26 +216,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     if (checkIfMatched(matchesArrayList.get(counter).userID)) {
 
-//                        if (checkState())
+                        if (checkState(matchesArrayList.get(counter).userID).equals("Passed")) {
+                            databaseReference.child("users").child(userID).child("matchList").child(matchesArrayList.get(counter).userID).child("state").setValue("Failed");
+                        }
+                        else if (checkState(matchesArrayList.get(counter).userID).equals("Pending")) {
+                            databaseReference.child("users").child(userID).child("matchList").child(matchesArrayList.get(counter).userID).child("state").setValue("Accepted");
+                            databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("state").setValue("Accepted");
 
+                            // TODO: Add Toast Notifications that you have found a match
+                        }
+                        else if (checkState(matchesArrayList.get(counter).userID).equals("Accepted")) {
+                            databaseReference.child("users").child(userID).child("matchList").child(matchesArrayList.get(counter).userID).child("state").setValue("Accepted");
+                        }
                     }
-
-
-                    databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("isAccepted").setValue(true);
-
-                    // Now check if the other person has matched with you or not
-
-                    if (checkIfMatched((matchesArrayList.get(counter).userID))) {
-                        databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("isAccepted").setValue(true);
-                    }
-
-                    databaseReference.child("users").child(userID).child("matchList").child("userID").child("isAccepted").setValue(true);
-
-
-                    databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("check").setValue(true);
-
-                    //                        child("check").setValue(true);
-                    //                databaseReference.child("users").child(userID).child("matchList").child("hasReceived").setValue(true);
                 }
             });
 
