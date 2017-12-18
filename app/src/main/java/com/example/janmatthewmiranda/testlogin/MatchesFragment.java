@@ -1,12 +1,28 @@
 package com.example.janmatthewmiranda.testlogin;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,10 +38,14 @@ public class MatchesFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    final long ONE_MEGABYTE = 1024 * 1024;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    ArrayList<String> images;
+    private FirebaseStorage storage;
+    StorageReference storageRef;
+    TextView textView2;
     private OnFragmentInteractionListener mListener;
 
 
@@ -66,7 +86,39 @@ public class MatchesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_matches, container, false);
+        View view = inflater.inflate(R.layout.fragment_matches, container, false);
+        textView2 = view.findViewById(R.id.textView2);
+        ListView listView = view.findViewById(R.id.listView);
+        final ImageView imageView = view.findViewById(R.id.imageView);
+        storage = FirebaseStorage.getInstance();
+
+        images = new ArrayList<>();
+        images.add("gs://testlogin-5da6c.appspot.com/users/MJ2qgvbXnkaq3nBVcMPFvLbvDMo1/profile");
+
+        ArrayList<Map<String, String>> users = new ArrayList<>();
+        Map<String,String> user = new HashMap<>();
+        user.put("name", "Gao Pan");
+        user.put("number", "6466428972");
+        users.add(user);
+
+        SimpleAdapter s = new SimpleAdapter(getActivity(), users, R.layout.list_matches, new String[] {"name", "number"}, new int[] {R.id.textView3, R.id.textView4});
+        listView.setAdapter(s);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                storageRef = storage.getReferenceFromUrl(images.get(i));
+                storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        imageView.setImageBitmap(bitmap);
+                    }
+                });
+                textView2.setText(((HashMap<String,String>)adapterView.getItemAtPosition(i)).get("name"));
+            }
+        });
+
+        return view;
     }
 
 
