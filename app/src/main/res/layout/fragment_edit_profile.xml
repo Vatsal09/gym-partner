@@ -150,13 +150,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:clickable="true"
+            android:clickable="false"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="@string/profile_text_field_1"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
             android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:ems="10"
+            android:text="Click Here"
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -446,6 +456,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
             android:layout_marginEnd="100dp"
             android:layout_marginLeft="100dp"
             android:layout_marginRight="100dp"

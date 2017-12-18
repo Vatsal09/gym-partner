@@ -23,8 +23,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,18 +66,19 @@ import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
  */
 public class EditProfileFragment extends Fragment {
 
-    public static final int GALLERY_REQUEST = 94;
+    public static final int GALLERY_REQUEST = 95;
     long startTime = System.currentTimeMillis();
     final long ONE_MEGABYTE = 1024 * 1024;
     FirebaseUser currentUser;
     private Button logoutBtnF;
     private Button saveBtn;
     private Button uploadBtn;
-
+    public String destination, coordinates;
+    public LatLng latlng;
     public EditText nameEditText;
     public EditText numberEditText;
     public EditText ageEditText;
-
+    public TextView locationEditText;
     private SeekBar flexibilityBar;
     private SeekBar dynamicStrengthBar;
     private SeekBar staticStrengthBar;
@@ -155,6 +162,22 @@ public class EditProfileFragment extends Fragment {
         nameEditText = view.findViewById(R.id.name);
         numberEditText = view.findViewById(R.id.phoneNumber);
         ageEditText = view.findViewById(R.id.age);
+        locationEditText = view.findViewById(R.id.location);
+        locationEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent intent =
+                            new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                                    .build(getActivity());
+                    startActivityForResult(intent, 94);
+                } catch (GooglePlayServicesRepairableException e) {
+                    // TODO: Handle the error.
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    // TODO: Handle the error.
+                }
+            }
+        });
 
         flexibilityBar = view.findViewById(R.id.seekBar_1);
         dynamicStrengthBar = view.findViewById(R.id.seekBar_2);
@@ -358,6 +381,15 @@ public class EditProfileFragment extends Fragment {
                                         imageDisplay.setImageBitmap(bitmap);
                                     }
                                 });
+                                imageLink = value;
+                                break;
+                            case "gymName" :
+                                locationEditText.setText(value);
+                                break;
+                            case "gym_location" :
+                                if (value.isEmpty()) coordinates = "";
+                                else coordinates = value;
+                                break;
                             default:
                                 break;
                         }
@@ -731,6 +763,13 @@ public class EditProfileFragment extends Fragment {
                     Toast.makeText(getActivity(), "Could not open image. Please choose another image",Toast.LENGTH_LONG).show();
                 }
             }
+            if(requestCode == 94) {
+                Place place = PlaceAutocomplete.getPlace(getActivity(), data);
+                destination = place.getName().toString();
+                locationEditText.setText(destination);
+                coordinates = ("lat: " + place.getLatLng().latitude + ", long: " + place.getLatLng().longitude);
+                Log.i("Place intent request", "Place: " + place.getName());
+            }
         }
     }
     private void saveUser() {
@@ -752,12 +791,7 @@ public class EditProfileFragment extends Fragment {
         if (workout_sch_fri.length != 0) fri = new ArrayList<String>(Arrays.asList(workout_sch_fri));
         if (workout_sch_sat.length != 0) sat = new ArrayList<String>(Arrays.asList(workout_sch_sat));
         if (workout_sch_sun.length != 0) sun = new ArrayList<String>(Arrays.asList(workout_sch_sun));
-        List coordinates = new ArrayList<Double>();
-        coordinates.add(0);
-        coordinates.add(0);
-        String destination = "";
-        //List coordinates = new ArrayList<Double>(Arrays.asList(LatLang));
-        //String coords = ("lat: " + LatLang[0] + ", long: " + LatLang[1]);
+
         List match_list = new ArrayList<String>();
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -787,7 +821,7 @@ public class EditProfileFragment extends Fragment {
         public String phoneNumber;
         public String gender;
         public String imageLink;
-        public List gym_location;
+        public String gym_location;
         public String gymName;
         public Double experience_avg;
         public Double experience_flexibility;
@@ -810,7 +844,7 @@ public class EditProfileFragment extends Fragment {
             // Default constructor required for calls to DataSnapshot.getValue(User.class)
         }
 
-        public User(String userID, String email, String name, String age, String phoneNumber, String gender, String imageLink, String gymName, List gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
+        public User(String userID, String email, String name, String age, String phoneNumber, String gender, String imageLink, String gymName, String gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
                     Double experience_aerobic, Double experience_circuit, List schedule_mon, List schedule_tue, List schedule_wed, List schedule_thu, List schedule_fri, List schedule_sat, List schedule_sun, List matchList) {
             this.userID = userID;
             this.email = email;
