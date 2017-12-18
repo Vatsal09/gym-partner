@@ -34,7 +34,9 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -165,12 +167,26 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             // Collect users with the same gym and put it into arraylist.
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                GenericTypeIndicator<CreateProfileActivity.User> genericTypeIndicator = new GenericTypeIndicator<CreateProfileActivity.User>() {};
-                CreateProfileActivity.User user = dataSnapshot.getValue(genericTypeIndicator);
-//                matchesList.add(user);
+                Map<String, CreateProfileActivity.User> user = (Map<String, CreateProfileActivity.User>) dataSnapshot.getValue();
+                for (Map.Entry<String, CreateProfileActivity.User> entry : user.entrySet())
+                {
+//                    Log.d("String",  entry.getKey() + " : " + entry.getValue());
+//                    Log.d("String", "" + user.get("name"));
+//                    System.out.println(entry.getKey() + "/" + entry.getValue());
+                }
+//                Log.d("String", "" + user.get("name"));
+
+//                Log.d("String", "" + dataSnapshot.getKey() + " -- Entry value" + dataSnapshot.getValue());
+
+                CreateProfileActivity.User tempUser = new CreateProfileActivity.User(""+ user.get("userID"), ""+ user.get("email"), ""+ user.get("name"), ""+ user.get("age"), ""+ user.get("phoneNumber"),
+                        ""+ user.get("gender"), ""+ user.get("imageLink"),""+ user.get("gymName"), ""+ user.get("gym_location"), Double.parseDouble(""+ user.get("experience_avg")), Double.parseDouble(""+ user.get("experience_flexibility")),
+                        Double.parseDouble(""+ user.get("experience_dynamic_strength")),Double.parseDouble(""+ user.get("experience_static_strength")),Double.parseDouble(""+ user.get("experience_aerobic")),Double.parseDouble(""+ user.get("experience_circuit")),
+                        (List<String>)(List<?>) user.get("schedule_mon"),(List<String>)(List<?>) user.get("schedule_tue"),(List<String>)(List<?>) user.get("schedule_wed"),(List<String>)(List<?>) user.get("schedule_thu"),(List<String>)(List<?>) user.get("schedule_fri"),(List<String>)(List<?>) user.get("schedule_sat"),
+                        (List<String>)(List<?>) user.get("schedule_sun"), (List<String>)(List<?>) user.get("matchList"));
+                matchesList.add(tempUser);
+                Log.d("arraylist", matchesList.toString());
+
             }
-
-
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
@@ -212,6 +228,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //            }
 //        });
 
+        Log.d("arraylist", matchesList.toString());
 
 
         matchText = (TextView) view.findViewById(R.id.home_match_name);
@@ -238,6 +255,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         else {
             // Initialize first matches view
+            matchText.setVisibility(View.VISIBLE);
+            gymText.setVisibility(View.VISIBLE);
+            experienceText.setVisibility(View.VISIBLE);
+            sorryText.setVisibility(View.INVISIBLE);
+
+            matchButton.setVisibility(View.VISIBLE);
+            passButton.setVisibility(View.VISIBLE);
+
             matchText.setText(matchesList.get(counter).name);
             gymText.setText(matchesList.get(counter).gymName);
 
@@ -317,6 +342,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String stateCheck = dataSnapshot.getValue(String.class);
                 state = stateCheck;
+                Log.d("InCheckState", "State = " + state);
             }
 
             @Override
@@ -335,6 +361,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Double checkID = dataSnapshot.getValue(Double.class);
+                Log.d("InCheckState", "State = " + state);
                 if (checkID.equals(userID)) {
                     checkMatch = true;
                 }
