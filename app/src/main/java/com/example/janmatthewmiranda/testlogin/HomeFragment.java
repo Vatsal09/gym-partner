@@ -32,7 +32,7 @@ import java.util.ArrayList;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -100,7 +100,7 @@ public class HomeFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        String userID = firebaseUser.getUid();
+        final String userID = firebaseUser.getUid();
         counter = 0;
 
 
@@ -179,14 +179,64 @@ public class HomeFragment extends Fragment {
         matchText.setText(matchesArrayList.get(counter).name);
         gymText.setText(matchesArrayList.get(counter).gymName);
 
+        Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesArrayList.get(counter).experience_avg);
+        experienceText.setText(experienceDifference + "% Experience Match");
 
-//        Double experienceDifference =
+        matchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Set values of card to the next potential partner
+                counter++;
+                matchText.setText(matchesArrayList.get(counter).name);
+                gymText.setText(matchesArrayList.get(counter).gymName);
+
+                Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesArrayList.get(counter).experience_avg);
+                experienceText.setText(experienceDifference + "% Experience Match");
+
+                // Add match to current users matchlist into the database
+                databaseReference.child("users").child(userID).child("matchList").child("check").setValue(true);
+//                databaseReference.child("users").child(userID).child("matchList").child("hasReceived").setValue(true);
+            }
+        });
+
+        passButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Set values of card to the next potential partner
+                counter++;
+                matchText.setText(matchesArrayList.get(counter).name);
+                gymText.setText(matchesArrayList.get(counter).gymName);
+
+                Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesArrayList.get(counter).experience_avg);
+                experienceText.setText(experienceDifference + "% Experience Match");
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    Double findExperienceDiff(double A, double B) {
+        double diff = Math.abs(A - B);
+        return 100 - (diff * 2);
+    }
+
+    @Override
+    public void onClick(View v) {
+        //do what you want to do when button is clicked
+        switch (v.getId()) {
+//            case R.id.textView_help:
+//                switchFragment(HelpFragment.TAG);
+//                break;
+//            case R.id.textView_settings:
+//                switchFragment(SettingsFragment.TAG);
+//                break;
+        }
+    }
+
+
+
+        // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
