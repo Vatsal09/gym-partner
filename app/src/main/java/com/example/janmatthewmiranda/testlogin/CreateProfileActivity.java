@@ -174,28 +174,10 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         age = (EditText) findViewById(R.id.age);
         phoneNumber = (EditText) findViewById(R.id.phoneNumber);
 
-
-
         user = firebaseAuth.getCurrentUser();
         String userID = user.getUid();
-        mStorage = storage.getReference();
 
-        StorageReference profileImageReference = mStorage.child("users/" + userID + "/" + uriOfImage.getLastPathSegment());
-        UploadTask uploadTask = profileImageReference.putFile(uriOfImage);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-                System.out.println("IMAGE URL NOT FOUND");
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                imageLink = downloadUrl.toString();
-            }
-        });
+
         String nName = name.getText().toString();
         String aAge = age.getText().toString();
         String pphoneNumber = phoneNumber.getText().toString();
@@ -421,6 +403,26 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                     inputStream=getContentResolver().openInputStream(uriOfImage);
                     Bitmap imageToUpload = BitmapFactory.decodeStream(inputStream);
                     imageDisplay.setImageBitmap(imageToUpload);
+                    user = firebaseAuth.getCurrentUser();
+                    String userID = user.getUid();
+                    mStorage = storage.getReference();
+
+                    StorageReference profileImageReference = mStorage.child("users/" + userID + "/" + uriOfImage.getLastPathSegment());
+                    UploadTask uploadTask = profileImageReference.putFile(uriOfImage);
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                            System.out.println("IMAGE URL NOT FOUND");
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            imageLink = downloadUrl.toString();
+                        }
+                    });
                 }catch (FileNotFoundException exc){
                     exc.printStackTrace();
                     Toast.makeText(this, "Could not open image. Please choose another image",Toast.LENGTH_LONG).show();
