@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +27,7 @@ import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
 
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -91,6 +93,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     private String imageLink;
     private Uri userUritoProfilePic;
     private DatabaseReference mDatabase;
+    private StorageReference mStorage;
     private FirebaseUser user;
 
     @Override
@@ -171,14 +174,15 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         age = (EditText) findViewById(R.id.age);
         phoneNumber = (EditText) findViewById(R.id.phoneNumber);
 
-
         user = firebaseAuth.getCurrentUser();
+        String userID = user.getUid();
+
 
         String nName = name.getText().toString();
         String aAge = age.getText().toString();
         String pphoneNumber = phoneNumber.getText().toString();
         String email = user.getEmail().toString();
-        String userID = user.getUid();
+
         Double eExperience_avg = (progress1 + progress2 + progress3 + progress4 + progress5)/5.0;
         List mon = new ArrayList<String>(Arrays.asList(workout_sch_mon));
         List tue = new ArrayList<String>(Arrays.asList(workout_sch_tue));
@@ -189,18 +193,12 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         List sun = new ArrayList<String>(Arrays.asList(workout_sch_sun));
         List coordinates = new ArrayList<Double>(Arrays.asList(LatLang));
         String coords = ("lat: " + LatLang[0] + ", long: " + LatLang[1]);
-        imageLink ="";
-        StorageReference storageReference = storage.getReference();
-        StorageReference profileImageReference = storageReference.child("users").child(userID).child(uriOfImage.getLastPathSegment());
-        UploadTask uploadTask = profileImageReference.putFile(uriOfImage);
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                @SuppressWarnings("VisibleForTests") Uri download = taskSnapshot.getDownloadUrl();
-                imageLink = download.toString();
 
-            }
-        });
+
+
+
+
+
 
         List match_list = new ArrayList<String>();
         mDatabase = database.getReference();
@@ -222,7 +220,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         public String age;
         public String phoneNumber;
         public String gender;
-        public String image_url;
+        public String imageLink;
         public List gym_location;
         public String gymName;
         public Double experience_avg;
@@ -246,14 +244,14 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             // Default constructor required for calls to DataSnapshot.getValue(User.class)
         }
 
-        public User(String email, String name, String age, String phoneNumber, String gender, String image_url, String gymName, List gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
+        public User(String email, String name, String age, String phoneNumber, String gender, String imageLink, String gymName, List gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
                     Double experience_aerobic, Double experience_circuit, List schedule_mon, List schedule_tue, List schedule_wed, List schedule_thu, List schedule_fri, List schedule_sat, List schedule_sun, List matchList) {
             this.email = email;
             this.name = name;
             this.age = age;
             this.phoneNumber = phoneNumber;
             this.gender = gender;
-            this.image_url = image_url;
+            this.imageLink = imageLink;
             this.gymName = gymName;
             this.gym_location = gym_location;
             this.experience_avg = experience_avg;
@@ -405,6 +403,26 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                     inputStream=getContentResolver().openInputStream(uriOfImage);
                     Bitmap imageToUpload = BitmapFactory.decodeStream(inputStream);
                     imageDisplay.setImageBitmap(imageToUpload);
+                    user = firebaseAuth.getCurrentUser();
+                    String userID = user.getUid();
+                    mStorage = storage.getReference();
+
+                    StorageReference profileImageReference = mStorage.child("users/" + userID + "/" + uriOfImage.getLastPathSegment());
+                    UploadTask uploadTask = profileImageReference.putFile(uriOfImage);
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle unsuccessful uploads
+                            System.out.println("IMAGE URL NOT FOUND");
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            imageLink = downloadUrl.toString();
+                        }
+                    });
                 }catch (FileNotFoundException exc){
                     exc.printStackTrace();
                     Toast.makeText(this, "Could not open image. Please choose another image",Toast.LENGTH_LONG).show();
