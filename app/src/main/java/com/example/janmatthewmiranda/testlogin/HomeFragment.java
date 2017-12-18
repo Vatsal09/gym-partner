@@ -54,7 +54,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ArrayList<CreateProfileActivity.User> matchesArrayList;
     private int counter;
     private double userExperienceAvg;
-
+    private String userID;
+    private boolean checkMatch;
+    private String state;
 
     private OnFragmentInteractionListener mListener;
 
@@ -100,7 +102,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        final String userID = firebaseUser.getUid();
+        userID = firebaseUser.getUid();
         counter = 0;
 
 
@@ -125,7 +127,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Double userExperienceAvg = dataSnapshot.getValue(Double.class);
+                userExperienceAvg = dataSnapshot.getValue(Double.class);
             }
 
             @Override
@@ -174,7 +176,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         matchImage = (ImageView) view.findViewById(R.id.match_picture);
 
-
         // Initialize first matches view
         matchText.setText(matchesArrayList.get(counter).name);
         gymText.setText(matchesArrayList.get(counter).gymName);
@@ -194,7 +195,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 experienceText.setText(experienceDifference + "% Experience Match");
 
                 // Add match to current users matchlist into the database
-                databaseReference.child("users").child(userID).child("matchList").child("userID").setValue(true);
+                databaseReference.child("users").child(userID).child("matchList").child(matchesArrayList.get(counter).userID).child("state").setValue("Pending");
+
+
+                // Now check if the other person has matched with you or not
+
+                if(checkIfMatched((matchesArrayList.get(counter).userID))) {
+
+
+                }
+
+
+                databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("isAccepted").setValue(true);
+
+                // Now check if the other person has matched with you or not
+
+                if(checkIfMatched((matchesArrayList.get(counter).userID))) {
+                    databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("isAccepted").setValue(true);
+                }
+
+                databaseReference.child("users").child(userID).child("matchList").child("userID").child("isAccepted").setValue(true);
+
+
+
+                databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("check").setValue(true);
+
 //                        child("check").setValue(true);
 //                databaseReference.child("users").child(userID).child("matchList").child("hasReceived").setValue(true);
             }
@@ -216,6 +241,62 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         return view;
     }
+
+    public String checkState(String matchID) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference userRef = ref.child("users").child(matchID).child("matchList").child(userID);
+        state = "";
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Double checkID = dataSnapshot.getValue(Double.class);
+                if (checkID.equals(userID)) {
+                    checkMatch = true;
+//                    databaseReference.child("users").child(userID).child("matchList").child("userID").child("isAccepted").setValue(true);
+//                    databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("isAccepted").setValue(true);
+                    // TODO: ADD NOTIFICATION FUNCTIONALLITY
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return state;
+
+    }
+
+    public boolean checkIfMatched(String matchID) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference userRef = ref.child("users").child(matchID).child("matchList");
+        checkMatch = false;
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Double checkID = dataSnapshot.getValue(Double.class);
+                if (checkID.equals(userID)) {
+                    checkMatch = true;
+//                    databaseReference.child("users").child(userID).child("matchList").child("userID").child("isAccepted").setValue(true);
+//                    databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("isAccepted").setValue(true);
+                    // TODO: ADD NOTIFICATION FUNCTIONALLITY
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return checkMatch;
+    }
+
 
     Double findExperienceDiff(double A, double B) {
         double diff = Math.abs(A - B);
