@@ -59,8 +59,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(this, LoginActivity.class));
         }
 
+
+        newUser user1 = new newUser("20eAVa3KTDT1i9tuEyMSNt719p83","test", 31.2, "Sonny Werblin Recreation Center", "8378");
+        newUser user2 = new newUser("DGawXRG28CcdPDD5V5C7tglrd7i2","ashgdfak", 44.4, "Sonny Werblin Recreation Center", "1236985");
+        newUser user3 = new newUser("MJ2qgvbXnkaq3nBVcMPFvLbvDMo1","Gao Pan", 97.8, "Sonny Werblin Recreation Center", "6466428972");
+        newUser user4 = new newUser("c3HHoIeOsEdu5t5U82weYravIrI2","asfafa", 48.4, "Sonny Werblin Recreation Center", "12414121");
+        newUser user5 = new newUser("gYLeTKrun3OBGenNwIXQlFn26NB2","fsdgsag", 39.6, "Sonny Werblin Recreation Center", "123456");
         matchesList = new ArrayList<>();
-//        matchesList.add(user1);
+        matchesList.add(user1);
         matchesList.add(user2);
         matchesList.add(user3);
         matchesList.add(user4);
@@ -205,12 +211,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    newUser user1 = new newUser("20eAVa3KTDT1i9tuEyMSNt719p83","test", 31.2, "Sonny Werblin Recreation Center", "8378");
-    newUser user2 = new newUser("DGawXRG28CcdPDD5V5C7tglrd7i2","ashgdfak", 44.4, "Sonny Werblin Recreation Center", "1236985");
-    newUser user3 = new newUser("MJ2qgvbXnkaq3nBVcMPFvLbvDMo1","Gao Pan", 97.8, "Sonny Werblin Recreation Center", "6466428972");
-    newUser user4 = new newUser("c3HHoIeOsEdu5t5U82weYravIrI2","asfafa", 48.4, "Sonny Werblin Recreation Center", "12414121");
-    newUser user5 = new newUser("gYLeTKrun3OBGenNwIXQlFn26NB2","fsdgsag", 39.6, "Sonny Werblin Recreation Center", "123456");
-
 
 
     public void logoutUser() {
@@ -239,6 +239,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fragmentTransaction = fm.beginTransaction();
             Bundle bundle = new Bundle();
             bundle.putSerializable("Match List",(Serializable) matchesList);
+            Log.d("print Bundle", bundle.toString());
             home_fragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.frameLayout, home_fragment);
             fragmentTransaction.commit();

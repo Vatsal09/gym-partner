@@ -86,10 +86,10 @@ public class EditProfileFragment extends Fragment {
     private SeekBar circuitBar;
 
     public ImageView imageDisplay;
-    private FirebaseStorage storage;
     private Uri uriOfImage;
     private String imageLink;
     private StorageReference mStorage;
+    private FirebaseStorage storage;
     StorageReference storageRef;
 
     private double progress1,

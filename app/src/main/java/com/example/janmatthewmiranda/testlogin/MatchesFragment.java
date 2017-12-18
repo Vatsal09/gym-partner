@@ -87,7 +87,7 @@ public class MatchesFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_matches, container, false);
-        textView2 = view.findViewById(R.id.textView2);
+        textView2 = view.findViewById(R.id.matchName);
         ListView listView = view.findViewById(R.id.listView);
         final ImageView imageView = view.findViewById(R.id.imageView);
         storage = FirebaseStorage.getInstance();

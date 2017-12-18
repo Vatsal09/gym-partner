@@ -32,6 +32,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -68,6 +69,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ImageButton matchButton, passButton;
     private ImageView matchImage;
 
+    final long ONE_MEGABYTE = 1024 * 1024;
     private DatabaseReference databaseReference;
     private DatabaseReference logReference;
     private FirebaseAuth firebaseAuth;
@@ -79,8 +81,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private String userID;
     private boolean checkMatch;
     private String state;
-    private StorageReference mStorage;
     private Uri uriOfImage;
+
+    private FirebaseStorage storage;
+    StorageReference storageRef;
 
 
 
@@ -126,7 +130,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         databaseReference = FirebaseDatabase.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -134,7 +137,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         userID = firebaseUser.getUid();
         counter = 0;
 
-        matchesList = (ArrayList<MainActivity.newUser>) getArguments().getSerializable("Matches List");
+        matchesList = (ArrayList<MainActivity.newUser>) getArguments().getSerializable("Match List");
         if(matchesList == null) {
             Log.d("bundle has failed", matchesList.toString());
         }
@@ -287,7 +290,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
             experienceText.setText(experienceDifference + "% Experience Match");
-
+            storage = FirebaseStorage.getInstance();
+            storageRef = storage.getReferenceFromUrl("gs://testlogin-5da6c.appspot.com/users/").child(matchesList.get(0).userID).child("profile.png");
+            storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    matchImage.setImageBitmap(bitmap);
+                }
+            });
 //            StorageReference profileImageReference = mStorage.child("users/" + matchesList.get(counter).userID + "/" + uriOfImage.getLastPathSegment());
 //
 //            final long ONE_MEGABYTE = 1024 * 1024;
