@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button profileBtn;
     private Button homeBtn;
     private Button matchesBtn;
-    private List<CreateProfileActivity.User> matchesList;
+    private List<newUser> matchesList;
     private int counter;
     private double userExperienceAvg;
     private String userID;
@@ -58,6 +58,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
+
+        matchesList = new ArrayList<>();
+//        matchesList.add(user1);
+        matchesList.add(user2);
+        matchesList.add(user3);
+        matchesList.add(user4);
+        matchesList.add(user5);
+
+
+
+
+
 
 //        databaseReference = FirebaseDatabase.getInstance().getReference();
 //        firebaseAuth = FirebaseAuth.getInstance();
@@ -120,11 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //
 ////                Log.d("String", "" + dataSnapshot.getKey() + " -- Entry value" + dataSnapshot.getValue());
 //
-//                CreateProfileActivity.User tempUser = new CreateProfileActivity.User(""+ user.get("userID"), ""+ user.get("email"), ""+ user.get("name"), ""+ user.get("age"), ""+ user.get("phoneNumber"),
-//                        ""+ user.get("gender"), ""+ user.get("imageLink"),""+ user.get("gymName"), ""+ user.get("gym_location"), Double.parseDouble(""+ user.get("experience_avg")), Double.parseDouble(""+ user.get("experience_flexibility")),
-//                        Double.parseDouble(""+ user.get("experience_dynamic_strength")),Double.parseDouble(""+ user.get("experience_static_strength")),Double.parseDouble(""+ user.get("experience_aerobic")),Double.parseDouble(""+ user.get("experience_circuit")),
-//                        (List<String>)(List<?>) user.get("schedule_mon"),(List<String>)(List<?>) user.get("schedule_tue"),(List<String>)(List<?>) user.get("schedule_wed"),(List<String>)(List<?>) user.get("schedule_thu"),(List<String>)(List<?>) user.get("schedule_fri"),(List<String>)(List<?>) user.get("schedule_sat"),
-//                        (List<String>)(List<?>) user.get("schedule_sun"), (List<String>)(List<?>) user.get("matchList"));
 //                matchesList.add(tempUser);
 //                Log.d("arraylist", matchesList.toString());
 //
@@ -178,14 +185,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public class newUser {
+    public class newUser implements Serializable {
+        public String userID;
         public String name;
-        public String experience_avg;
+        public double experience_avg;
         public String gymName;
         public String phoneNumber;
         public List<HashMap> matchList;
 
-        public  newUser(String name, String experience_avg, String gymName, String phoneNumber) {
+        public  newUser(String userID, String name, Double experience_avg, String gymName, String phoneNumber) {
+            this.userID = userID;
             this.name = name;
             this.experience_avg = experience_avg;
             this.gymName = gymName;
@@ -196,11 +205,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    newUser user1 = new newUser("test", "31.2", "Sonny Werblin Recreation Center", "8378");
-    newUser user2 = new newUser("ashgdfak", "44.4", "Sonny Werblin Recreation Center", "1236985");
-    newUser user3 = new newUser("Gao Pan", "97.8", "Sonny Werblin Recreation Center", "6466428972");
-    newUser user4 = new newUser("asfafa", "48.4", "Sonny Werblin Recreation Center", "12414121");
-    newUser user5 = new newUser("fsdgsag", "39.6", "Sonny Werblin Recreation Center", "123456");
+    newUser user1 = new newUser("20eAVa3KTDT1i9tuEyMSNt719p83","test", 31.2, "Sonny Werblin Recreation Center", "8378");
+    newUser user2 = new newUser("DGawXRG28CcdPDD5V5C7tglrd7i2","ashgdfak", 44.4, "Sonny Werblin Recreation Center", "1236985");
+    newUser user3 = new newUser("MJ2qgvbXnkaq3nBVcMPFvLbvDMo1","Gao Pan", 97.8, "Sonny Werblin Recreation Center", "6466428972");
+    newUser user4 = new newUser("c3HHoIeOsEdu5t5U82weYravIrI2","asfafa", 48.4, "Sonny Werblin Recreation Center", "12414121");
+    newUser user5 = new newUser("gYLeTKrun3OBGenNwIXQlFn26NB2","fsdgsag", 39.6, "Sonny Werblin Recreation Center", "123456");
+
 
 
     public void logoutUser() {

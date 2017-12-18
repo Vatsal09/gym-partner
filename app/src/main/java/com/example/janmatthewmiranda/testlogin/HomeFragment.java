@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private String userGymCoordinates;
-    private List<CreateProfileActivity.User> matchesList;
+    private List<MainActivity.newUser> matchesList;
     private int counter;
     private double userExperienceAvg;
     private String userID;
@@ -119,6 +119,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -132,7 +134,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         userID = firebaseUser.getUid();
         counter = 0;
 
-        matchesList = (ArrayList<CreateProfileActivity.User>) getArguments().getSerializable("Matches List");
+        matchesList = (ArrayList<MainActivity.newUser>) getArguments().getSerializable("Matches List");
         if(matchesList == null) {
             Log.d("bundle has failed", matchesList.toString());
         }
@@ -395,7 +397,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     Double findExperienceDiff(double A, double B) {
         double diff = Math.abs(A - B);
-        return 100 - (diff * 2);
+        return 100 - diff;
     }
 
     @Override
