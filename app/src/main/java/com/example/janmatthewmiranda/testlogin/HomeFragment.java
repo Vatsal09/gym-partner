@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.io.Serializable;
@@ -291,14 +292,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
             experienceText.setText(experienceDifference + "% Experience Match");
             storage = FirebaseStorage.getInstance();
-            storageRef = storage.getReferenceFromUrl("gs://testlogin-5da6c.appspot.com/users/").child(matchesList.get(0).userID).child("profile.png");
-            storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    matchImage.setImageBitmap(bitmap);
-                }
-            });
+            updateImage(matchesList.get(0).userID);
 //            StorageReference profileImageReference = mStorage.child("users/" + matchesList.get(counter).userID + "/" + uriOfImage.getLastPathSegment());
 //
 //            final long ONE_MEGABYTE = 1024 * 1024;
@@ -320,6 +314,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     matchText.setText(matchesList.get(counter).name);
                     gymText.setText(matchesList.get(counter).gymName);
 
+                    updateImage(matchesList.get(counter).userID);
                     Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
                     experienceText.setText(experienceDifference + "% Experience Match");
                     // Add match to current users matchlist into the database
@@ -353,6 +348,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     counter++;
                     matchText.setText(matchesList.get(counter).name);
                     gymText.setText(matchesList.get(counter).gymName);
+
+                    updateImage(matchesList.get(counter).userID);
 
                     Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
                     experienceText.setText(experienceDifference + "% Experience Match");
@@ -390,10 +387,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Double checkID = dataSnapshot.getValue(Double.class);
-                Log.d("InCheckState", "State = " + state);
-                if (checkID.equals(userID)) {
-                    checkMatch = true;
+                Iterable<DataSnapshot> s = dataSnapshot.getChildren();
+                Iterator<DataSnapshot> i = s.iterator();
+                while (i.hasNext()) {
+                    DataSnapshot child = i.next();
+                    String checkID = child.getValue().toString();
+                    Log.d("InCheckState", "State = " + state);
+                    if (checkID.equals(userID)) {
+                        checkMatch = true;
+                        break;
+                    }
                 }
             }
 
@@ -405,7 +408,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         return checkMatch;
     }
 
-
+    public void updateImage(String UID) {
+        storageRef = storage.getReferenceFromUrl("gs://testlogin-5da6c.appspot.com/users/").child(UID).child("profile.png");
+        storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                matchImage.setImageBitmap(bitmap);
+            }
+        });
+    }
     Double findExperienceDiff(double A, double B) {
         double diff = Math.abs(A - B);
         return 100 - diff;

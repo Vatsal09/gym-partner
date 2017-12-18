@@ -423,7 +423,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                     String userID = user.getUid();
                     mStorage = storage.getReference();
 
-                    StorageReference profileImageReference = mStorage.child("users/" + userID + "/profile");
+                    StorageReference profileImageReference = mStorage.child("users/" + userID + "/profile.png");
                     UploadTask uploadTask = profileImageReference.putFile(uriOfImage);
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override

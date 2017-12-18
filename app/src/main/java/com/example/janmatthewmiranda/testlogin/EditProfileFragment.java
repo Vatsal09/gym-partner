@@ -189,7 +189,7 @@ public class EditProfileFragment extends Fragment {
 
         imageDisplay = view.findViewById(R.id.seeImage);
         storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReferenceFromUrl("gs://testlogin-5da6c.appspot.com/users/").child(currentUser.getUid()).child("profile");
+        storageRef = storage.getReferenceFromUrl("gs://testlogin-5da6c.appspot.com/users/").child(currentUser.getUid()).child("profile.png");
         spinner1 = (Spinner) view.findViewById(R.id.genderSpinner);
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -742,7 +742,7 @@ public class EditProfileFragment extends Fragment {
                     String userID = currentUser.getUid();
                     mStorage = storage.getReference();
 
-                    StorageReference profileImageReference = mStorage.child("users/" + userID + "/profile");
+                    StorageReference profileImageReference = mStorage.child("users/" + userID + "/profile.png");
                     UploadTask uploadTask = profileImageReference.putFile(uriOfImage);
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
