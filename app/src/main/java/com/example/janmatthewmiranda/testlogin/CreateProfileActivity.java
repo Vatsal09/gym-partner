@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,8 +28,10 @@ import io.apptik.widget.multiselectspinner.MultiSelectSpinner;
 
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -86,15 +89,18 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     private String [] workout_sch_sat;
     private String [] workout_sch_sun;
     private String destination;
+
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase database;
     private FirebaseStorage storage;
+    private FirebaseUser user;
+
     private Uri uriOfImage;
     private String imageLink;
     private Uri userUritoProfilePic;
     private DatabaseReference mDatabase;
     private StorageReference mStorage;
-    private FirebaseUser user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +116,20 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             startActivity(new Intent(this, LoginActivity.class));
         }
 
+
+
         FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        user.sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("message", "Verification Email sent");
+                        }
+                    }
+                });
+
         spinner1 = (Spinner) findViewById(R.id.genderSpinner);
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -191,7 +210,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         List fri = new ArrayList<String>(Arrays.asList(workout_sch_fri));
         List sat = new ArrayList<String>(Arrays.asList(workout_sch_sat));
         List sun = new ArrayList<String>(Arrays.asList(workout_sch_sun));
-        List coordinates = new ArrayList<Double>(Arrays.asList(LatLang));
+//        List coordinates = new ArrayList<Double>(Arrays.asList(LatLang));
         String coords = ("lat: " + LatLang[0] + ", long: " + LatLang[1]);
 
         List match_list = new ArrayList<String>();
