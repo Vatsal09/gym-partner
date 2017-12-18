@@ -194,7 +194,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 experienceText.setText(experienceDifference + "% Experience Match");
 
                 // Add match to current users matchlist into the database
-                databaseReference.child("users").child(userID).child("matchList").child("check").setValue(true);
+                databaseReference.child("users").child(userID).child("matchList").child("userID").setValue(true);
+//                        child("check").setValue(true);
 //                databaseReference.child("users").child(userID).child("matchList").child("hasReceived").setValue(true);
             }
         });
