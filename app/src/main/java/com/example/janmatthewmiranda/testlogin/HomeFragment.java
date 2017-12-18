@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.content.Intent;
+
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,6 +40,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.Serializable;
+
+
+import static java.lang.Thread.sleep;
 
 
 /**
@@ -74,6 +81,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private String state;
     private StorageReference mStorage;
     private Uri uriOfImage;
+
 
 
     private OnFragmentInteractionListener mListener;
@@ -124,90 +132,94 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         userID = firebaseUser.getUid();
         counter = 0;
 
-        matchesList = new ArrayList<>();
+        matchesList = (ArrayList<CreateProfileActivity.User>) getArguments().getSerializable("Matches List");
+        if(matchesList == null) {
+            Log.d("bundle has failed", matchesList.toString());
+        }
 
 
-        // Get current user's gym
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference userRef = ref.child("users").child(userID).child("gym_location");
 
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                userGymCoordinates = dataSnapshot.getValue(String.class);
-                Log.d("String", userGymCoordinates);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        // Get current user's experience level
-        userRef = ref.child("users").child(userID).child("experience_avg");
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                userExperienceAvg = dataSnapshot.getValue(Double.class);
-//                String temp = dataSnapshot.getValue(String.class);
-//                userExperienceAvg = Double.parseDouble(temp);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-        // Get all users with same gym as user selected gym
-        DatabaseReference findSameGymUsers = FirebaseDatabase.getInstance().getReference("users");
-        findSameGymUsers.orderByChild("gym_location").equalTo(userGymCoordinates).addChildEventListener(new ChildEventListener() {
-            @Override
-            // Collect users with the same gym and put it into arraylist.
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map<String, CreateProfileActivity.User> user = (Map<String, CreateProfileActivity.User>) dataSnapshot.getValue();
-                for (Map.Entry<String, CreateProfileActivity.User> entry : user.entrySet())
-                {
-//                    Log.d("String",  entry.getKey() + " : " + entry.getValue());
-//                    Log.d("String", "" + user.get("name"));
-//                    System.out.println(entry.getKey() + "/" + entry.getValue());
-                }
-//                Log.d("String", "" + user.get("name"));
-
-//                Log.d("String", "" + dataSnapshot.getKey() + " -- Entry value" + dataSnapshot.getValue());
-
-                CreateProfileActivity.User tempUser = new CreateProfileActivity.User(""+ user.get("userID"), ""+ user.get("email"), ""+ user.get("name"), ""+ user.get("age"), ""+ user.get("phoneNumber"),
-                        ""+ user.get("gender"), ""+ user.get("imageLink"),""+ user.get("gymName"), ""+ user.get("gym_location"), Double.parseDouble(""+ user.get("experience_avg")), Double.parseDouble(""+ user.get("experience_flexibility")),
-                        Double.parseDouble(""+ user.get("experience_dynamic_strength")),Double.parseDouble(""+ user.get("experience_static_strength")),Double.parseDouble(""+ user.get("experience_aerobic")),Double.parseDouble(""+ user.get("experience_circuit")),
-                        (List<String>)(List<?>) user.get("schedule_mon"),(List<String>)(List<?>) user.get("schedule_tue"),(List<String>)(List<?>) user.get("schedule_wed"),(List<String>)(List<?>) user.get("schedule_thu"),(List<String>)(List<?>) user.get("schedule_fri"),(List<String>)(List<?>) user.get("schedule_sat"),
-                        (List<String>)(List<?>) user.get("schedule_sun"), (List<String>)(List<?>) user.get("matchList"));
-                matchesList.add(tempUser);
-                Log.d("arraylist", matchesList.toString());
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//        // Get current user's gym
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+//        DatabaseReference userRef = ref.child("users").child(userID).child("gym_location");
+//
+//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                userGymCoordinates = dataSnapshot.getValue(String.class);
+//                Log.d("String", userGymCoordinates);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//        // Get current user's experience level
+//        userRef = ref.child("users").child(userID).child("experience_avg");
+//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                userExperienceAvg = dataSnapshot.getValue(Double.class);
+////                String temp = dataSnapshot.getValue(String.class);
+////                userExperienceAvg = Double.parseDouble(temp);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//
+//        // Get all users with same gym as user selected gym
+//        DatabaseReference findSameGymUsers = FirebaseDatabase.getInstance().getReference("users");
+//        findSameGymUsers.orderByChild("gym_location").equalTo(userGymCoordinates).addChildEventListener(new ChildEventListener() {
+//            @Override
+//            // Collect users with the same gym and put it into arraylist.
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                Map<String, CreateProfileActivity.User> user = (Map<String, CreateProfileActivity.User>) dataSnapshot.getValue();
+//                for (Map.Entry<String, CreateProfileActivity.User> entry : user.entrySet())
+//                {
+////                    Log.d("String",  entry.getKey() + " : " + entry.getValue());
+////                    Log.d("String", "" + user.get("name"));
+////                    System.out.println(entry.getKey() + "/" + entry.getValue());
+//                }
+////                Log.d("String", "" + user.get("name"));
+//
+////                Log.d("String", "" + dataSnapshot.getKey() + " -- Entry value" + dataSnapshot.getValue());
+//
+//                CreateProfileActivity.User tempUser = new CreateProfileActivity.User(""+ user.get("userID"), ""+ user.get("email"), ""+ user.get("name"), ""+ user.get("age"), ""+ user.get("phoneNumber"),
+//                        ""+ user.get("gender"), ""+ user.get("imageLink"),""+ user.get("gymName"), ""+ user.get("gym_location"), Double.parseDouble(""+ user.get("experience_avg")), Double.parseDouble(""+ user.get("experience_flexibility")),
+//                        Double.parseDouble(""+ user.get("experience_dynamic_strength")),Double.parseDouble(""+ user.get("experience_static_strength")),Double.parseDouble(""+ user.get("experience_aerobic")),Double.parseDouble(""+ user.get("experience_circuit")),
+//                        (List<String>)(List<?>) user.get("schedule_mon"),(List<String>)(List<?>) user.get("schedule_tue"),(List<String>)(List<?>) user.get("schedule_wed"),(List<String>)(List<?>) user.get("schedule_thu"),(List<String>)(List<?>) user.get("schedule_fri"),(List<String>)(List<?>) user.get("schedule_sat"),
+//                        (List<String>)(List<?>) user.get("schedule_sun"), (List<String>)(List<?>) user.get("matchList"));
+//                matchesList.add(tempUser);
+//                Log.d("arraylist", matchesList.toString());
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
 //        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
@@ -229,7 +241,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //        });
 
         Log.d("arraylist", matchesList.toString());
-
 
         matchText = (TextView) view.findViewById(R.id.home_match_name);
         gymText = (TextView) view.findViewById(R.id.home_gym_name);

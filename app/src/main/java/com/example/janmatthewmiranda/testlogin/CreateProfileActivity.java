@@ -44,6 +44,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -226,7 +227,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     }
 
     @IgnoreExtraProperties
-    public static class User {
+    public static class User implements Serializable {
 
         public String userID;
         public String email;
