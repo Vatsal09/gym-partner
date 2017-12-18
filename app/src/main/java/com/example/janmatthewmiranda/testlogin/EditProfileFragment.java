@@ -62,7 +62,7 @@ public class EditProfileFragment extends Fragment {
 
     public static final int GALLERY_REQUEST = 94;
     long startTime = System.currentTimeMillis();
-
+    final long ONE_MEGABYTE = 1024 * 1024;
     FirebaseUser currentUser;
     private Button logoutBtnF;
     private Button saveBtn;
@@ -83,6 +83,7 @@ public class EditProfileFragment extends Fragment {
     private Uri uriOfImage;
     private String imageLink;
     private StorageReference mStorage;
+    StorageReference storageRef;
 
     private double progress1,
             progress2,
@@ -145,6 +146,12 @@ public class EditProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        String userID = "";
+        if (currentUser != null){
+            userID = currentUser.getUid();
+        }
         nameEditText = view.findViewById(R.id.name);
         numberEditText = view.findViewById(R.id.phoneNumber);
         ageEditText = view.findViewById(R.id.age);
@@ -159,7 +166,7 @@ public class EditProfileFragment extends Fragment {
 
         imageDisplay = view.findViewById(R.id.seeImage);
         storage = FirebaseStorage.getInstance();
-
+        storageRef = storage.getReferenceFromUrl("gs://testlogin-5da6c.appspot.com/users/").child(currentUser.getUid()).child("profile");
         spinner1 = (Spinner) view.findViewById(R.id.genderSpinner);
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -189,12 +196,7 @@ public class EditProfileFragment extends Fragment {
         sat = new ArrayList<String>();
         sun = new ArrayList<String>();
         setMultiSelect();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-        String userID = "";
-        if (currentUser != null){
-            userID = currentUser.getUid();
-        }
+
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference usersRef = database.getReference("users");
         usersRef.orderByKey().equalTo(userID).addChildEventListener(new ChildEventListener() {
@@ -349,7 +351,13 @@ public class EditProfileFragment extends Fragment {
                                 staticStrengthBar.setProgress(Integer.parseInt(value));
                                 break;
                             case "imageLink" :
-                                
+                                storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                    @Override
+                                    public void onSuccess(byte[] bytes) {
+                                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                        imageDisplay.setImageBitmap(bitmap);
+                                    }
+                                });
                             default:
                                 break;
                         }
@@ -702,7 +710,7 @@ public class EditProfileFragment extends Fragment {
                     String userID = currentUser.getUid();
                     mStorage = storage.getReference();
 
-                    StorageReference profileImageReference = mStorage.child("users/" + userID + "/" + uriOfImage.getLastPathSegment());
+                    StorageReference profileImageReference = mStorage.child("users/" + userID + "/profile");
                     UploadTask uploadTask = profileImageReference.putFile(uriOfImage);
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
