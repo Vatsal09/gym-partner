@@ -251,10 +251,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             matchButton.setVisibility(View.INVISIBLE);
             passButton.setVisibility(View.INVISIBLE);
+            Log.d("String", "You reach inside the if statement");
+
         }
 
         else {
             // Initialize first matches view
+            Log.d("String", "You reach after else statement");
+
             matchText.setVisibility(View.VISIBLE);
             gymText.setVisibility(View.VISIBLE);
             experienceText.setVisibility(View.VISIBLE);
@@ -264,23 +268,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             passButton.setVisibility(View.VISIBLE);
 
             matchText.setText(matchesList.get(counter).name);
+            Log.d("name", matchesList.get(counter).name);
             gymText.setText(matchesList.get(counter).gymName);
+            Log.d("gymName", matchesList.get(counter).gymName);
 
             Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
             experienceText.setText(experienceDifference + "% Experience Match");
 
-            StorageReference profileImageReference = mStorage.child("users/" + matchesList.get(counter).userID + "/" + uriOfImage.getLastPathSegment());
-
-            final long ONE_MEGABYTE = 1024 * 1024;
-
-            //
-            profileImageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    matchImage.setImageBitmap(bitmap);
-                }
-            });
+//            StorageReference profileImageReference = mStorage.child("users/" + matchesList.get(counter).userID + "/" + uriOfImage.getLastPathSegment());
+//
+//            final long ONE_MEGABYTE = 1024 * 1024;
+//
+//            //
+//            profileImageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+//                @Override
+//                public void onSuccess(byte[] bytes) {
+//                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                    matchImage.setImageBitmap(bitmap);
+//                }
+//            });
 
             matchButton.setOnClickListener(new View.OnClickListener() {
                 @Override
