@@ -101,9 +101,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @Override
-    public void onLogoutSelected() {
-        Log.d("onLogoutSelected", "Interface initialized");
-        logoutUser();
-    }
 }

@@ -138,7 +138,6 @@
             android:id="@+id/uploadBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="openGallery"
             android:text="@string/uploadBtn" />
 
         <ImageView
@@ -151,14 +150,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:clickable="true"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="@string/profile_text_field_1"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
             android:textSize="17sp" />
-        <!--TODO-->
-        <!--Insert Something to Search-->
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
