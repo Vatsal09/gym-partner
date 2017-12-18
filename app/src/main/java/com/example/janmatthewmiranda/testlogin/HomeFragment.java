@@ -1,6 +1,7 @@
 package com.example.janmatthewmiranda.testlogin;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -12,10 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Intent;
+import android.widget.Toast;
 
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -136,13 +139,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         firebaseUser = firebaseAuth.getCurrentUser();
 
         userID = firebaseUser.getUid();
+        SharedPreferences sp = getActivity().getSharedPreferences("counter", 0);
+
         counter = 0;
-
+        sp.getInt("count", counter);
+        Log.d("counter", counter +"");
         matchesList = (ArrayList<MainActivity.newUser>) getArguments().getSerializable("Match List");
-        if(matchesList == null) {
-            Log.d("bundle has failed", matchesList.toString());
-        }
-
 
 
 //        // Get current user's gym
@@ -265,7 +267,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             gymText.setVisibility(View.INVISIBLE);
             experienceText.setVisibility(View.INVISIBLE);
             sorryText.setVisibility(View.VISIBLE);
-
+            matchImage.setVisibility(View.INVISIBLE);
             matchButton.setVisibility(View.INVISIBLE);
             passButton.setVisibility(View.INVISIBLE);
             Log.d("String", "You reach inside the if statement");
@@ -280,7 +282,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             gymText.setVisibility(View.VISIBLE);
             experienceText.setVisibility(View.VISIBLE);
             sorryText.setVisibility(View.INVISIBLE);
-
+            matchImage.setVisibility(View.VISIBLE);
             matchButton.setVisibility(View.VISIBLE);
             passButton.setVisibility(View.VISIBLE);
 
@@ -305,24 +307,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //                    matchImage.setImageBitmap(bitmap);
 //                }
 //            });
-
-            matchButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Set values of card to the next potential partner
-                    counter++;
-                    matchText.setText(matchesList.get(counter).name);
-                    gymText.setText(matchesList.get(counter).gymName);
-
-                    updateImage(matchesList.get(counter).userID);
-                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
-                    experienceText.setText(experienceDifference + "% Experience Match");
-                    // Add match to current users matchlist into the database
+            FrameLayout home_frame = view.findViewById(R.id.home_frame);
+            home_frame.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
+                public void onSwipeRight() {
                     databaseReference.child("users").child(userID).child("matchList").child(matchesList.get(counter).userID).child("state").setValue("Pending");
-
-
-                    // Now check if the other person has matched with you or not
-
                     if (checkIfMatched(matchesList.get(counter).userID)) {
 
                         if (checkState(matchesList.get(counter).userID).equals("Passed")) {
@@ -338,6 +326,98 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                             databaseReference.child("users").child(userID).child("matchList").child(matchesList.get(counter).userID).child("state").setValue("Accepted");
                         }
                     }
+
+                    // Set values of card to the next potential partner
+                    counter++;
+                    if (matchesList.size() == counter) {
+                        matchText.setVisibility(View.INVISIBLE);
+                        gymText.setVisibility(View.INVISIBLE);
+                        experienceText.setVisibility(View.INVISIBLE);
+                        sorryText.setVisibility(View.VISIBLE);
+                        matchImage.setVisibility(View.INVISIBLE);
+                        matchButton.setVisibility(View.INVISIBLE);
+                        passButton.setVisibility(View.INVISIBLE);
+                        Log.d("String", "You reach inside the if statement");
+                        return;
+                    }
+                    matchText.setText(matchesList.get(counter).name);
+                    gymText.setText(matchesList.get(counter).gymName);
+
+                    updateImage(matchesList.get(counter).userID);
+                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
+                    experienceText.setText(experienceDifference + "% Experience Match");
+                    // Add match to current users matchlist into the database
+                }
+                public void onSwipeLeft() {
+                    counter++;
+
+                    if (matchesList.size() == counter) {
+                        matchText.setVisibility(View.INVISIBLE);
+                        gymText.setVisibility(View.INVISIBLE);
+                        experienceText.setVisibility(View.INVISIBLE);
+                        sorryText.setVisibility(View.VISIBLE);
+                        matchImage.setVisibility(View.INVISIBLE);
+                        matchButton.setVisibility(View.INVISIBLE);
+                        passButton.setVisibility(View.INVISIBLE);
+                        Log.d("String", "You reach inside the if statement");
+                        return;
+                    }
+
+                    matchText.setText(matchesList.get(counter).name);
+                    gymText.setText(matchesList.get(counter).gymName);
+
+                    updateImage(matchesList.get(counter).userID);
+
+                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
+                    experienceText.setText(experienceDifference + "% Experience Match");
+                }
+
+            });
+            matchButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    // Now check if the other person has matched with you or not
+
+                    databaseReference.child("users").child(userID).child("matchList").child(matchesList.get(counter).userID).child("state").setValue("Pending");
+                    if (checkIfMatched(matchesList.get(counter).userID)) {
+
+                        if (checkState(matchesList.get(counter).userID).equals("Passed")) {
+                            databaseReference.child("users").child(userID).child("matchList").child(matchesList.get(counter).userID).child("state").setValue("Failed");
+                        }
+                        else if (checkState(matchesList.get(counter).userID).equals("Pending")) {
+                            databaseReference.child("users").child(userID).child("matchList").child(matchesList.get(counter).userID).child("state").setValue("Accepted");
+                            databaseReference.child("users").child(matchesList.get(counter).userID).child("matchList").child(userID).child("state").setValue("Accepted");
+
+                            // TODO: Add Toast Notifications that you have found a match
+                        }
+                        else if (checkState(matchesList.get(counter).userID).equals("Accepted")) {
+                            databaseReference.child("users").child(userID).child("matchList").child(matchesList.get(counter).userID).child("state").setValue("Accepted");
+                        }
+                    }
+
+                    // Set values of card to the next potential partner
+                    counter++;
+                    if (matchesList.size() == counter) {
+                        matchText.setVisibility(View.INVISIBLE);
+                        gymText.setVisibility(View.INVISIBLE);
+                        experienceText.setVisibility(View.INVISIBLE);
+                        sorryText.setVisibility(View.VISIBLE);
+                        matchImage.setVisibility(View.INVISIBLE);
+                        matchButton.setVisibility(View.INVISIBLE);
+                        passButton.setVisibility(View.INVISIBLE);
+                        Log.d("String", "You reach inside the if statement");
+                        return;
+                    }
+                    matchText.setText(matchesList.get(counter).name);
+                    gymText.setText(matchesList.get(counter).gymName);
+
+                    updateImage(matchesList.get(counter).userID);
+                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
+                    experienceText.setText(experienceDifference + "% Experience Match");
+                    // Add match to current users matchlist into the database
+
+
                 }
             });
 
@@ -346,6 +426,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 public void onClick(View v) {
                     // Set values of card to the next potential partner
                     counter++;
+
+                    if (matchesList.size() == counter) {
+                        matchText.setVisibility(View.INVISIBLE);
+                        gymText.setVisibility(View.INVISIBLE);
+                        experienceText.setVisibility(View.INVISIBLE);
+                        sorryText.setVisibility(View.VISIBLE);
+                        matchImage.setVisibility(View.INVISIBLE);
+                        matchButton.setVisibility(View.INVISIBLE);
+                        passButton.setVisibility(View.INVISIBLE);
+                        Log.d("String", "You reach inside the if statement");
+                        return;
+                    }
+
                     matchText.setText(matchesList.get(counter).name);
                     gymText.setText(matchesList.get(counter).gymName);
 
@@ -459,6 +552,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onDetach() {
         super.onDetach();
+        SharedPreferences sp = getActivity().getSharedPreferences("counter", 0);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt("count", counter);
+        editor.commit();
         mListener = null;
     }
 

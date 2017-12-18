@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FragmentTransaction fragmentTransaction;
 
     private FragmentManager fm;
-//    HomeFragment fhome = new HomeFragment();
+    HomeFragment fhome = new HomeFragment();
 //    EditProfileFragment fprofile = new EditProfileFragment();
 //    MatchesFragment fmatches = new MatchesFragment();
 
@@ -179,15 +179,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         matchesBtn.setOnClickListener(this);
 
 
-//        fm = getFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
+        fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Match List",(Serializable) matchesList);
+        Log.d("print Bundle", bundle.toString());
+        fhome.setArguments(bundle);
 //        Bundle bundle = new Bundle();
 //        bundle.putSerializable("Matches List",(Serializable) matchesList);
 //        view_fragment.setArguments(bundle);
 //        fragmentTransaction.replace(R.id.fragment_container, view_fragment);
 
-//        ft.add(R.id.frameLayout, fhome);
-//        ft.commit();
+        ft.add(R.id.frameLayout, fhome);
+        ft.commit();
 
     }
 
@@ -197,8 +201,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public double experience_avg;
         public String gymName;
         public String phoneNumber;
-        public List<HashMap> matchList;
 
+        public newUser() {
+            this("", "", 0.0, "", "");
+        }
         public  newUser(String userID, String name, Double experience_avg, String gymName, String phoneNumber) {
             this.userID = userID;
             this.name = name;
@@ -206,6 +212,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             this.gymName = gymName;
             this.phoneNumber = phoneNumber;
            // this.matchList = matchList;
+        }
+        public String getUserID() {
+            return userID;
+        }
+        public String getName() {
+            return  name;
+        }
+        public double getExperience_avg() {
+            return experience_avg;
+        }
+        public String getGymName() {
+            return gymName;
+        }
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public void setUserID(String userID) {
+            this.userID = userID;
+        }
+        public void setName(String name) {
+            this.name = name;
+        }
+        public void setExperience_avg(double experience_avg) {
+            this.experience_avg = experience_avg;
+        }
+        public void setGymName(String gymName) {
+            this.gymName = gymName;
+        }
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
         }
         //newUser(String name, String experience_avg, String gymName, String phoneNumber, List<HashMap> matchList)  {
 
