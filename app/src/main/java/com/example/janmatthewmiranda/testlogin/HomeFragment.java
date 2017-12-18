@@ -1,9 +1,13 @@
 package com.example.janmatthewmiranda.testlogin;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -18,10 +24,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -51,12 +64,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private String userGymCoordinates;
-    private ArrayList<CreateProfileActivity.User> matchesArrayList;
+    private List<CreateProfileActivity.User> matchesList;
     private int counter;
     private double userExperienceAvg;
     private String userID;
     private boolean checkMatch;
     private String state;
+    private StorageReference mStorage;
+    private Uri uriOfImage;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -92,6 +108,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,20 +119,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        matchesArrayList = new ArrayList<>();
-
         userID = firebaseUser.getUid();
         counter = 0;
+
+        matchesList = new ArrayList<>();
 
 
         // Get current user's gym
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference userRef = ref.child("users").child(userID).child("gym");
+        DatabaseReference userRef = ref.child("users").child(userID).child("gym_location");
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 userGymCoordinates = dataSnapshot.getValue(String.class);
+                Log.d("String", userGymCoordinates);
             }
 
             @Override
@@ -130,6 +148,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 userExperienceAvg = dataSnapshot.getValue(Double.class);
+//                String temp = dataSnapshot.getValue(String.class);
+//                userExperienceAvg = Double.parseDouble(temp);
             }
 
             @Override
@@ -140,12 +160,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
         // Get all users with same gym as user selected gym
-        databaseReference.child("users").orderByChild("gym").equalTo(userGymCoordinates).addChildEventListener(new ChildEventListener() {
+        DatabaseReference findSameGymUsers = FirebaseDatabase.getInstance().getReference("users");
+        findSameGymUsers.orderByChild("gym_location").equalTo(userGymCoordinates).addChildEventListener(new ChildEventListener() {
             @Override
             // Collect users with the same gym and put it into arraylist.
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                CreateProfileActivity.User user = dataSnapshot.getValue(CreateProfileActivity.User.class);
-                matchesArrayList.add(user);
+                GenericTypeIndicator<CreateProfileActivity.User> genericTypeIndicator = new GenericTypeIndicator<CreateProfileActivity.User>() {};
+                CreateProfileActivity.User user = dataSnapshot.getValue(genericTypeIndicator);
+//                matchesList.add(user);
             }
 
             @Override
@@ -168,6 +190,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+
+
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+//        Query query = reference.child("users").orderByChild("gym_location").equalTo(userGymCoordinates);
+//        query.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+//                        matchesList.add( (CreateProfileActivity.User) data.getValue());
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+
+
+
         matchText = (TextView) view.findViewById(R.id.home_match_name);
         gymText = (TextView) view.findViewById(R.id.home_gym_name);
         experienceText = (TextView) view.findViewById(R.id.home_experience_match);
@@ -180,7 +224,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
 
-        if (matchesArrayList.size() == 0) {
+        if (matchesList.size() == 0) {
             matchText.setVisibility(View.INVISIBLE);
             gymText.setVisibility(View.INVISIBLE);
             experienceText.setVisibility(View.INVISIBLE);
@@ -192,41 +236,54 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         else {
             // Initialize first matches view
-            matchText.setText(matchesArrayList.get(counter).name);
-            gymText.setText(matchesArrayList.get(counter).gymName);
+            matchText.setText(matchesList.get(counter).name);
+            gymText.setText(matchesList.get(counter).gymName);
 
-            Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesArrayList.get(counter).experience_avg);
+            Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
             experienceText.setText(experienceDifference + "% Experience Match");
+
+            StorageReference profileImageReference = mStorage.child("users/" + matchesList.get(counter).userID + "/" + uriOfImage.getLastPathSegment());
+
+            final long ONE_MEGABYTE = 1024 * 1024;
+
+            //
+            profileImageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    matchImage.setImageBitmap(bitmap);
+                }
+            });
 
             matchButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Set values of card to the next potential partner
                     counter++;
-                    matchText.setText(matchesArrayList.get(counter).name);
-                    gymText.setText(matchesArrayList.get(counter).gymName);
+                    matchText.setText(matchesList.get(counter).name);
+                    gymText.setText(matchesList.get(counter).gymName);
 
-                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesArrayList.get(counter).experience_avg);
+                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
                     experienceText.setText(experienceDifference + "% Experience Match");
                     // Add match to current users matchlist into the database
-                    databaseReference.child("users").child(userID).child("matchList").child(matchesArrayList.get(counter).userID).child("state").setValue("Pending");
+                    databaseReference.child("users").child(userID).child("matchList").child(matchesList.get(counter).userID).child("state").setValue("Pending");
 
 
                     // Now check if the other person has matched with you or not
 
-                    if (checkIfMatched(matchesArrayList.get(counter).userID)) {
+                    if (checkIfMatched(matchesList.get(counter).userID)) {
 
-                        if (checkState(matchesArrayList.get(counter).userID).equals("Passed")) {
-                            databaseReference.child("users").child(userID).child("matchList").child(matchesArrayList.get(counter).userID).child("state").setValue("Failed");
+                        if (checkState(matchesList.get(counter).userID).equals("Passed")) {
+                            databaseReference.child("users").child(userID).child("matchList").child(matchesList.get(counter).userID).child("state").setValue("Failed");
                         }
-                        else if (checkState(matchesArrayList.get(counter).userID).equals("Pending")) {
-                            databaseReference.child("users").child(userID).child("matchList").child(matchesArrayList.get(counter).userID).child("state").setValue("Accepted");
-                            databaseReference.child("users").child(matchesArrayList.get(counter).userID).child("matchList").child(userID).child("state").setValue("Accepted");
+                        else if (checkState(matchesList.get(counter).userID).equals("Pending")) {
+                            databaseReference.child("users").child(userID).child("matchList").child(matchesList.get(counter).userID).child("state").setValue("Accepted");
+                            databaseReference.child("users").child(matchesList.get(counter).userID).child("matchList").child(userID).child("state").setValue("Accepted");
 
                             // TODO: Add Toast Notifications that you have found a match
                         }
-                        else if (checkState(matchesArrayList.get(counter).userID).equals("Accepted")) {
-                            databaseReference.child("users").child(userID).child("matchList").child(matchesArrayList.get(counter).userID).child("state").setValue("Accepted");
+                        else if (checkState(matchesList.get(counter).userID).equals("Accepted")) {
+                            databaseReference.child("users").child(userID).child("matchList").child(matchesList.get(counter).userID).child("state").setValue("Accepted");
                         }
                     }
                 }
@@ -237,10 +294,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 public void onClick(View v) {
                     // Set values of card to the next potential partner
                     counter++;
-                    matchText.setText(matchesArrayList.get(counter).name);
-                    gymText.setText(matchesArrayList.get(counter).gymName);
+                    matchText.setText(matchesList.get(counter).name);
+                    gymText.setText(matchesList.get(counter).gymName);
 
-                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesArrayList.get(counter).experience_avg);
+                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
                     experienceText.setText(experienceDifference + "% Experience Match");
                 }
             });
