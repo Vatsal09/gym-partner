@@ -3,6 +3,8 @@ package com.example.janmatthewmiranda.testlogin;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -89,7 +91,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     private String [] workout_sch_fri;
     private String [] workout_sch_sat;
     private String [] workout_sch_sun;
-    private String destination;
+    private String destination = "";
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase database;
@@ -202,8 +204,31 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         String aAge = age.getText().toString();
         String pphoneNumber = phoneNumber.getText().toString();
         String email = user.getEmail().toString();
-
+        if (name.getText().toString().matches("")) {
+            Toast.makeText(this, "Please enter your name.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (phoneNumber.getText().toString().matches("")){
+            phoneNumber.setError("Please enter your phone number.");
+            return;
+        }
+        if (age.getText().toString().matches("")) {
+            age.setError("Please enter your age.");
+            return;
+        }
+        if (!hasImage(imageDisplay)) {
+            Toast.makeText(this, "Please upload an image.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (destination.matches("")){
+            Toast.makeText(this, "Please enter a gym.", Toast.LENGTH_LONG).show();
+            return;
+        }
         Double eExperience_avg = (progress1 + progress2 + progress3 + progress4 + progress5)/5.0;
+        if (workout_sch_fri == null || workout_sch_mon == null || workout_sch_sat == null || workout_sch_sun == null || workout_sch_thu == null || workout_sch_tue == null || workout_sch_wed == null) {
+            Toast.makeText(this, "Please enter your schedule!", Toast.LENGTH_LONG).show();
+            return;
+        }
         List mon = new ArrayList<String>(Arrays.asList(workout_sch_mon));
         List tue = new ArrayList<String>(Arrays.asList(workout_sch_tue));
         List wed = new ArrayList<String>(Arrays.asList(workout_sch_wed));
@@ -218,7 +243,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         mDatabase = database.getReference();
 
 
-        User user = new User(userID, email, nName, aAge, pphoneNumber, genderSelected, imageLink, destination, coords, eExperience_avg, progress1, progress2, progress3, progress4, progress5, mon, tue, wed, thu, fri, sat, sun, match_list);
+        User user = new User(userID, email, nName, aAge, pphoneNumber, genderSelected, imageLink, destination, coords, eExperience_avg + "", progress1, progress2, progress3, progress4, progress5, mon, tue, wed, thu, fri, sat, sun, match_list);
         mDatabase.child("users").child(userID).setValue(user);
 
         //Moves to Homepage
@@ -238,7 +263,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         public String imageLink;
         public String gym_location;
         public String gymName;
-        public Double experience_avg;
+        public String experience_avg;
         public Double experience_flexibility;
         public Double experience_dynamic_strength;
         public Double experience_static_strength;
@@ -259,7 +284,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             // Default constructor required for calls to DataSnapshot.getValue(User.class)
         }
 
-        public User(String userID, String email, String name, String age, String phoneNumber, String gender, String imageLink, String gymName, String gym_location, Double experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
+        public User(String userID, String email, String name, String age, String phoneNumber, String gender, String imageLink, String gymName, String gym_location, String experience_avg, Double experience_flexibility, Double experience_dynamic_strength, Double experience_static_strength,
                     Double experience_aerobic, Double experience_circuit, List schedule_mon, List schedule_tue, List schedule_wed, List schedule_thu, List schedule_fri, List schedule_sat, List schedule_sun, List matchList) {
             this.userID = userID;
             this.email = email;
@@ -446,6 +471,16 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
             }
         }
 
+    }
+    private boolean hasImage(@NonNull ImageView view) {
+        Drawable drawable = view.getDrawable();
+        boolean hasImage = (drawable != null);
+
+        if (hasImage && (drawable instanceof BitmapDrawable)) {
+            hasImage = ((BitmapDrawable)drawable).getBitmap() != null;
+        }
+
+        return hasImage;
     }
     public void setMultiSelect(){
         ArrayList<String> times = new ArrayList<>();

@@ -291,7 +291,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             gymText.setText(matchesList.get(counter).gymName);
             Log.d("gymName", matchesList.get(counter).gymName);
 
-            Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
+            Double experienceDifference = findExperienceDiff(userExperienceAvg, Double.parseDouble(matchesList.get(counter).experience_avg));
             experienceText.setText(experienceDifference + "% Experience Match");
             storage = FirebaseStorage.getInstance();
             updateImage(matchesList.get(0).userID);
@@ -344,7 +344,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     gymText.setText(matchesList.get(counter).gymName);
 
                     updateImage(matchesList.get(counter).userID);
-                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
+                    Double experienceDifference = findExperienceDiff(userExperienceAvg, Double.parseDouble(matchesList.get(counter).experience_avg));
                     experienceText.setText(experienceDifference + "% Experience Match");
                     // Add match to current users matchlist into the database
                 }
@@ -368,7 +368,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     updateImage(matchesList.get(counter).userID);
 
-                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
+                    Double experienceDifference = findExperienceDiff(userExperienceAvg, Double.parseDouble(matchesList.get(counter).experience_avg));
                     experienceText.setText(experienceDifference + "% Experience Match");
                 }
 
@@ -413,7 +413,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     gymText.setText(matchesList.get(counter).gymName);
 
                     updateImage(matchesList.get(counter).userID);
-                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
+                    Double experienceDifference = findExperienceDiff(userExperienceAvg, Double.parseDouble(matchesList.get(counter).experience_avg));
                     experienceText.setText(experienceDifference + "% Experience Match");
                     // Add match to current users matchlist into the database
 
@@ -444,7 +444,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     updateImage(matchesList.get(counter).userID);
 
-                    Double experienceDifference = findExperienceDiff(userExperienceAvg, matchesList.get(counter).experience_avg);
+                    Double experienceDifference = findExperienceDiff(userExperienceAvg, Double.parseDouble(matchesList.get(counter).experience_avg));
                     experienceText.setText(experienceDifference + "% Experience Match");
                 }
             });
